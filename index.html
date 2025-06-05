@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Norland Production</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+  font-family: 'Poppins', sans-serif;
+}
+
+.background-container {
+  position: fixed;
+  color: linear-gradient(rgba(0, 0, 0, 09), rgba(0, 0, 0, 0.8)),
+  overflow: hidden;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -2; /* Derrière tout */
+}
+.gradient-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.4)); /* Dégradé ici */
+  z-index: 1;
+  pointer-events: none;
+
+}
+.rotated-bg {
+  
+  width: 100vw;
+  height: 200vh;
+  object-fit: cover;
+  transform: rotate(90deg);
+  transform-origin: center center;
+  position: fixed; 
+}
+
+/* === NAVBAR === */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #111;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.cta-button {
+   background-color: #d72631; /* Rouge vibrant */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+background-color: #5c3c92; /* Violet profond */
+  color: white;
+}
+.hero img {
+   margin-top: 97px; 
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+   object-position: top;
+     overflow: hidden;
+  display: block;
+}
+.accroche {
+  padding: 80px 20px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.accroche h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.intro {
+  margin-top: -160px; /* remonte légèrement la section */
+  
+  padding: 80px 20px 60px 20px;
+  text-align: center;
+  background: transparent;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.intro h2 {
+  
+  font-size: 3.5rem;
+  margin-bottom: 00px;
+}
+.intro h3 {
+ 
+  font-size: 1.3rem;
+  margin-bottom: 60px;
+}
+
+.intro p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 1600px;
+  margin: 10px auto;
+}
+
+.cta-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 25px;
+  font-weight: bold;
+  color: white;
+  background: #d72631;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: background 0.3s;
+}
+
+.cta-btn:hover {
+  background: #5c3c92;
+}
+
+.presentation {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.presentation p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.cta-formulaire {
+  display: inline-block;
+  margin-top: 20px;
+  background: linear-gradient(to right, #5c3c92, #077b8a);
+  color: #ffffff;
+  padding: 14px 28px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.cta-formulaire:hover {
+  background: linear-gradient(to right, #077b8a, #5c3c92);
+}
+.highlight {
+  color: #f9d5ec; /* rose très pâle */
+  font-weight: bold;
+}
+.carousel-title {
+  font-size: 4.5rem;
+  text-align: right;
+  margin-bottom: 40px;
+   margin-right: 5vw; 
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+/* Texte avec dégradé */
+.gradient-text {
+  background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+.carousel-section {
+  position: relative;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  width: 400%; /* 4 vidéos * 100% chacune */
+  transition: transform 1.2s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 100vw;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.carousel-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+   filter: brightness(20%);
+}
+
+.overlay {
+
+  bottom: 20px;
+  left: 20px;
+  color: white;
+
+  padding: 0.5rem 1rem; 
+  opacity: 0;
+  border-radius: 10px;
+  pointer-events: none; /* overlay ne bloque pas les clics */
+  user-select: none; /* pas sélectionnable */
+  transition: opacity 1s ease;
+  transition: transform 1.2s ease-in-out;
+  line-height: 0.8; 
+  font-size: 2rem;
+}
+.overlay h2 {
+  margin-bottom: 2rem; /* espace sous le titre */
+}
+
+.overlay p:last-child {
+  margin-top: -0.2rem; /* espace au-dessus du nombre de vues */
+    font-style: italic;
+    font-size: 0.9rem;
+}
+.carousel-item .overlay {
+  position: absolute;
+  bottom: 220px;
+  left: 140px;
+  color: white;
+
+  padding: 1rem;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 2s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.carousel-item.active .overlay {
+  opacity: 2;
+  position: absolute;
+  bottom: 220px;
+  left: 140px;
+  color: white;
+  
+  padding: 1rem;
+  border-radius: 10px;
+  transition: opacity 2s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.3); /* fond semi-transparent */
+  border: none;
+  color: white;
+  font-size: 24px; /* taille petite */
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  transition: background-color 0.3s;
+}
+
+.carousel-arrow:hover {
+  background-color: rgba(0,0,0,0.6);
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
+.testimonials-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  
+}
+
+.testimonial {
+  width: 300px;
+  text-align: center;
+  color: white;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.testimonial p strong {
+  font-size: 1.1rem; /* un poil plus grand */
+  font-style: normal; /* enlève l’italic */
+  font-weight: bold;  /* assure un bon contraste */
+  display: block;     /* pour que le nom soit sur sa propre ligne */
+  margin-bottom: 0rem;
+}
+
+.testimonial img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 2px; /* espace entre l'image et le cercle */
+  background: linear-gradient(135deg, #ffd972, #f9d5ec); /* dégradé du cercle */
+  display: block;
+  margin: 0 auto 1rem auto;
+}
+
+.testimonial.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.testimonial p {
+  font-style: italic;
+  font-size: 0.95rem;
+}
+.objectif-section {
+  padding: 5rem 2rem;
+ 
+  color: white;
+  text-align: left;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.objectif-section h2 {
+  font-size: 4.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+   margin-top: -20px;
+
+}
+.objectif-title {
+  margin-left: -12rem; /* Ajuste selon le rendu */
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+   font-size: 4.5rem;
+}
+
+.objectif-section p {
+  font-size: 1.22rem;
+  line-height: 1.6;
+   margin-top: 100px;
+  margin-bottom: 60px;
+  text-align: center;
+  max-width: 900px; 
+}
+.phrase-importante {
+  font-size: 2.5rem; /* ou 24px, ajuste selon ton design */
+  font-weight: 600;
+    text-align: center;
+      margin: 9;
+}
+
+.objectif-section .question {
+  font-size: 1.2rem;
+  margin-top: 60px;
+}
+
+.objectif-section .types {
+    font-style: italic;
+    margin-top: -3rem;
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
+  color: #ccc;
+}
+
+.cta-red {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 25px;
+  font-weight: bold;
+  color: white;
+  background: #d72631;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: background 0.3s;
+  
+}
+
+.cta-red:hover {
+  background-color: #c92c3a;
+}
+.video-showcase {
+    margin-top: -40px;
+  padding: 80px 20px;
+  background-color: transparent
+  text-align: center;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.video-wrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: auto;
+  display: block;
+object-fit: cover;
+  min-height: 200px;
+}
+
+.video-wrapper p {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: white;
+  font-weight: bold;
+
+
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Overlay sombre */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Animation fade-in */
+.fade-in-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.fade-in-on-scroll.appear {
+  opacity: 1;
+  transform: translateY(0);
+}
+.process-section {
+   margin-top: -40px;
+  padding: 80px 20px;
+  text-align: center;
+   color: #ccc;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+   color: #ccc;
+}
+
+.process-step h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+   color: #ccc;
+}
+
+.process-step p {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.final-cta {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
+}
+
+.final-cta h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.site-footer {
+  background-color: transparent
+  padding: 40px 20px;
+  text-align: center;
+  color: white ;
+}
+
+.footer-links {
+  margin-top: 15px;
+}
+
+.footer-links a {
+  margin: 0 10px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+</style>
+</head>
+<body>
+<!-- NAVIGATION FIXE -->
+<header>
+  <section class="hero">
+  <img src="fond-site-web-2.png" alt="Bannière Norland avec le slogan Une vidéo. Une histoire.">
+ <section class="intro">
+  <h2>Tu es créateur de contenu ?</h2>
+  <h3>Je t'aide à raconter ton histoire.</h3>
+  <p>
+    Moi c’est <strong>Norland</strong>, <span class="highlight">monteur expérimenté spécialisé dans le contenu long sur YouTube.<br></span>
+    Si tu veux donner à tes vidéos un rendu <strong>professionnel</strong>, avec une intro <strong>percutante</strong> et un storytelling <strong>maîtrisé</strong>, tu es au bon endroit.
+  </p>
+  <a href="#formulaire" class="cta-btn">Parlons de ton projet</a>
+</section>
+</section>
+  <nav class="navbar">
+    <div class="logo">Norland Production</div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#formulaire" class="cta-button">Commencer ton projet</a>
+  </nav>
+</header>
+<div class="background-container">
+   <div class="gradient-overlay"></div>
+  <img src="01-1.jpg" alt="fond" class="rotated-bg" />
+</div>
+ <h2 class="carousel-title">
+  Ils m’ont fait<br>   confiance pour <span class="gradient-text"> raconter</span> <br>
+  <span class="gradient-text"> leurs histoires:</span>
+</h2>
+<section class="carousel-section">
+  <div class="carousel-track">
+    <div class="carousel-item active">
+      <video src="videos/video1.mp4" muted loop playsinline></video>
+        <div class="dark-overlay"></div>  <!-- overlay sombre -->
+      <div class="overlay">
+        <h2>LORIS POKA - 47.5k abonnés</h2>
+        <p>« Le premier mort à l'UFC va bientôt arriver. »</p>
+        <p>- 182k vues</p>
+      </div>
+    </div>
+    <div class="carousel-item active">
+      <video src="videos/video2.mp4" muted loop playsinline></video>
+        <div class="dark-overlay"></div>  <!-- overlay sombre -->
+      <div class="overlay">
+        <h2>Malo Halna - 296k abonnés</h2>
+        <p>« Je teste le BARBECUE japonais (Yakiniku) 🥓🇯🇵 »</p>
+        <p>- 87k vues</p>
+      </div>
+    </div>
+    <div class="carousel-item active">
+      <video src="videos/video3.mp4" muted loop playsinline></video>
+        <div class="dark-overlay"></div>  <!-- overlay sombre -->
+      <div class="overlay">
+        <h2>Alex de Castro - 210k abonnés</h2>
+        <p>« TOTTI était-il si fort que ça ? »</p>
+        <p>- 179k vues</p>
+      </div>
+    </div>
+    <div class="carousel-item active">
+      <video src="videos/video4.mp4" muted loop playsinline></video>
+        <div class="dark-overlay"></div>  <!-- overlay sombre -->
+      <div class="overlay">
+        <h2>Peur 2.0 - 55.1k abonnés</h2>
+        <p>« L'Iceberg des MYSTÈRES Non Résolus (Partie 3 - 🔞) »</p>
+        <p>- 93k vues</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-arrows">
+    <button class="carousel-arrow left-arrow">&#10094;</button> <!-- flèche gauche -->
+    <button class="carousel-arrow right-arrow">&#10095;</button> <!-- flèche droite -->
+  </div>
+</section>
+<section class="testimonials-section">
+  <div class="testimonial">
+    <img src="Profils/profil-loris.jpg" alt="Loris Poka">
+    <p><strong>Loris Poka</strong><br><em>C’était rapide ! Magnifique la vidéo vraiment. Je suis trop fan de l’ambiance que tu mets avec le montage, t’es trop fort.</em></p>
+  </div>
+  <div class="testimonial">
+    <img src="Profils/profil-malo.jpg" alt="Malo Halna">
+    <p><strong>Malo Halna</strong><br><em>Super taf ! (…) L’intro est parfaite, bien rythmée, et les illustrations que tu as rajoutées rendent vraiment bien. (…) Montage Propre et pro, bravo !</em></p>
+  </div>
+  <div class="testimonial">
+    <img src="Profils/profil-alex.jpg" alt="Alex de Castro">
+    <p><strong>Alex de Castro</strong><br><em>Franchement c’est top pour une V1. Tu as déjà parfaitement cerné l’esprit/ambiance de la chaine, et j’aime bcp ton style.</em></p>
+  </div>
+  <div class="testimonial">
+    <img src="Profils/profil-peur.jpg" alt="Peur 2.0">
+    <p><strong>Peur 2.0</strong><br><em>J’ai maté la V1, écoute j’ai rien à redire. C’est chiant quand c’est parfait 🥲 (…) J’ai pas envie d’apporter des motifs haha !</em></p>
+  </div>
+</section>
+<section class="objectif-section">
+  <div class="objectif-content">
+   <h2 class="objectif-title">
+  Mon objectif ? <br><span class="gradient-text">Que tu atteignes <br>TON objectif.</span>
+</h2>
+    <p>
+      Chaque projet est pensé pour <strong>captiver</strong>, raconter une histoire et sublimer ta vision.<br>
+      Le <strong>rythme</strong>, l’<strong>esthétique</strong>, la <strong>narration</strong>, chaque seconde doit être la plus immersive possible.
+    </p>
+    <h3 class="phrase-importante"><strong>En bref, je ne me contente pas de monter. <span class="highlight">Je raconte.</span></strong></h3>
+    <p class="question">Et toi, c’est quoi ton histoire ?</p>
+    <p class="types">Storytelling, VLOG, gaming, vulgarisation, sponso, etc…</p>
+    <div style="text-align: center;">
+    <a href="#contact" class="cta-red">Parlons de ton projet</a>
+  </div>
+</section>
+<section class="video-showcase fade-in-on-scroll">
+  <div class="video-grid">
+    <div class="video-wrapper">
+      <div class="video-overlay"></div>
+      <video src="videos/exemple1.mp4" autoplay muted loop></video>
+      <p>Storytelling / Documentaire</p>
+    </div>
+    <div class="video-wrapper">
+      <div class="video-overlay"></div>
+      <video src="videos/exemple2.mp4" autoplay muted loop></video>
+      <p>VLOG / Entreprise</p>
+    </div>
+    <div class="video-wrapper">
+      <div class="video-overlay"></div>
+      <video src="videos/exemple3.mp4" autoplay muted loop></video>
+      <p>Streaming / Gaming</p>
+    </div>
+    <div class="video-wrapper">
+      <div class="video-overlay"></div>
+      <video src="videos/exemple4.mp4" autoplay muted loop></video>
+      <p>Sponso / UGC</p>
+    </div>
+  </div>
+</section>
+
+<section class="process-section fade-in-on-scroll">
+  <h2 class="section-title">Comment ça se passe ?</h2>
+  <div class="process-grid">
+    <div class="process-step">
+      <h3>1. Prise de contact</h3>
+      <p>On discute de ton projet, ton univers, ton audience.</p>
+    </div>
+    <div class="process-step">
+      <h3>2. Plan de montage</h3>
+      <p>Je te propose une structure, un style, un rythme.</p>
+    </div>
+    <div class="process-step">
+      <h3>3. Premier rendu</h3>
+      <p>Tu reçois une première version, on ajuste ensemble.</p>
+    </div>
+    <div class="process-step">
+      <h3>4. Livraison</h3>
+      <p>Tu repars avec une vidéo prête à performer !</p>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta fade-in-on-scroll">
+  <h2 class="section-title">T’es prêt ? Travaillons ensemble.</h2>
+  <a href="#contact" class="cta-red">Discutons de ton projet</a>
+</section>
+
+
+<footer class="site-footer">
+  <p>&copy; 2025 Norland Production — Monteur vidéo freelance</p>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/guillaume-kuhn-639923325/" target="_blank">LinkedIn</a>
+    <a href="norlandlemonteur@gmail.com">Email</a>
+    <a href="https://youtube.com/playlist?list=PLhle_EGMzbeK1zvNvNM4Y5w_rNHPg1Tdc&si=N6FaZvIUY9SFdVjl" target="_blank">YouTube</a>
+  </div>
+</footer>
+<script>
+  const track = document.querySelector('.carousel-track');
+  const items = document.querySelectorAll('.carousel-item');
+  const leftArrow = document.querySelector('.left-arrow');
+  const rightArrow = document.querySelector('.right-arrow');
+  let index = 0;
+
+  // Joue toutes les vidéos
+  items.forEach(item => {
+    const video = item.querySelector('video');
+    video.play();
+  });
+
+  // Active l'overlay uniquement pour l'item visible
+  function updateCarousel() {
+    track.style.transform = `translateX(-${index * 100}vw)`;
+
+    items.forEach((item, i) => {
+      if (i === index) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+
+  leftArrow.addEventListener('click', () => {
+    index = (index - 1 + items.length) % items.length;
+    updateCarousel();
+  });
+
+  rightArrow.addEventListener('click', () => {
+    index = (index + 1) % items.length;
+    updateCarousel();
+  });
+
+  // Slide automatiquement toutes les 15 secondes
+  setInterval(() => {
+    index = (index + 1) % items.length;
+    updateCarousel();
+  }, 15000);
+
+  // Init au démarrage
+  updateCarousel();
+
+  const testimonials = document.querySelectorAll('.testimonial');
+
+  function handleScroll() {
+    testimonials.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100 && rect.bottom > 0) {
+      el.classList.add('visible');
+    } else {
+      el.classList.remove('visible'); // <-- permet de rejouer l'effet quand on scroll à nouveau
+    }
+    });
+  }
+
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('load', handleScroll); // au cas où c’est déjà visible au chargement
+
+const faders = document.querySelectorAll('.fade-in-on-scroll');
+
+const appearOptions = {
+  threshold: 0.3,
+};
+
+const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('appear');
+    } else {
+      entry.target.classList.remove('appear'); // Enlève la classe quand on repart
+    }
+  });
+}, appearOptions);
+
+faders.forEach(fader => {
+  appearOnScroll.observe(fader);
+});
+</script>
+</body>
+</html>
