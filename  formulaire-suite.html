@@ -180,46 +180,48 @@
 
   <hr class="separator">
 
-  <label>Quel type de contenu dois-je illustrer ? *</label>
+  <label>Ton projet comprend : *</label>
   <div class="radio-group">
-    <label><input type="radio" name="contenu" value="audio" required> 🎙️ Juste de l’audio</label>
-    <label><input type="radio" name="contenu" value="caméra"> 📹 Caméra</label>
-    <label><input type="radio" name="contenu" value="podcast"> 🎤 Podcast</label>
-    <label><input type="radio" name="contenu" value="autre"> ❓ Autre</label>
+    <label><input type="radio" name="contenu" value="audio" required> 🎙️ Juste de l’audio (voix-off à illustrer entièrement)</label>
+    <label><input type="radio" name="contenu" value="caméra"> 📹 Il y a de la caméra (facecam, interview, vlog, etc)</label>
+    <label><input type="radio" name="contenu" value="podcast"> 🎤 C'est un podcast (audio avec ou sans image fixe)</label>
+    <label><input type="radio" name="contenu" value="autre"> ❓ Autre (précise dans la description plus haut)</label>
   </div>
 
   <hr class="separator">
 
   <label>Tu souhaites un style spécifique ? *</label>
   <div class="checkbox-group">
-    <label><input type="checkbox" name="style[]" value="motion-simple"> 🎨 Motion simple</label>
-    <label><input type="checkbox" name="style[]" value="motion-avance"> 🚀 Motion avancé</label>
-    <label><input type="checkbox" name="style[]" value="sound-design"> 🎧 Sound design</label>
-    <label><input type="checkbox" name="style[]" value="musique"> 🎼 Musiques</label>
+    <label><input type="checkbox" name="style[]" value="motion-simple"> 🎨 Motion design simple (titres, transitions)</label>
+    <label><input type="checkbox" name="style[]" value="motion-avance"> 🚀 Motion design avancé (animation de personnages, objets, etc.)</label>
+    <label><input type="checkbox" name="style[]" value="sound-design"> 🎧 Sound design (bruitages, ambiances, effets sonores)</label>
+    <label><input type="checkbox" name="style[]" value="musique"> 🎼 Musiques personnalisées</label>
     <label><input type="checkbox" name="style[]" value="da"> 🖌️ DA personnalisée</label>
-    <label><input type="checkbox" name="style[]" value="rien"> ❌ Rien</label>
+    <label><input type="checkbox" name="style[]" value="rien"> ❌ Pas besoin de tout ça, je veux du simple et efficace</label>
   </div>
 
   <hr class="separator">
 
-  <label for="duree">Durée de la vidéo ? *</label>
+  <label for="duree">Combien de temps doit durer ta vidéo ? *</label>
+   <p class="italic">Juste une estimation pour que je sache à quoi m’attendre.</p>
   <input type="text" id="duree" name="duree" required>
 
   <hr class="separator">
 
-  <label for="deadline">Deadline ? *</label>
+  <label for="deadline">Tu as une deadline précise ? *</label>
+   <p class="italic">Ça m’aide à m’organiser et à pas te faire attendre</p>
   <input type="text" id="deadline" name="deadline" required>
 
   <hr class="separator">
 
-  <label for="budget">Budget (optionnel)</label>
+  <label for="budget">As-tu un budget en tête pour ce projet ? (optionnel)</label>
   <input type="text" id="budget" name="budget">
 
   <!-- Champs cachés pour les données de la première page -->
   <input type="hidden" name="name" id="hiddenName">
   <input type="hidden" name="email" id="hiddenEmail">
   <input type="hidden" name="youtube" id="hiddenYoutube">
-  <input type="hidden" name="_redirect" value="confirmation.html">
+  <input type="hidden" name="_redirect" value="/confirmation.html">
 
   <div style="width: 100%; display: flex; justify-content: center; margin-top: 2rem;">
     <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-all duration-300 shadow-md">
