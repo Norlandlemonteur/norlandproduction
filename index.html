@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Norland Production</title>
+  <meta name="keywords" content="monteur vidéo freelance, montage vidéo YouTube, montage vidéo professionnel, montage vidéo pour créateurs français, monteur vidéo France, services montage vidéo, monteur vidéo français, montage vidéo freelance" />
+  <meta name="description" content="Guillaume Kuhn, monteur vidéo freelance spécialisé en montage YouTube pour créateurs français. " />
+  
+  <title>Norland Production - Monteur vidéo freelance</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
@@ -118,7 +121,7 @@ html {
   scroll-behavior: smooth;
 }
 .cta-button:hover {
-background-color: #5c3c92; /* Violet profond */
+background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   color: white;
 }
 .hero {
@@ -165,6 +168,30 @@ background-color: #5c3c92; /* Violet profond */
    object-position: top;
      overflow: hidden;
   display: block;
+}
+#scroll-indicator {
+  position: fixed;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+  z-index: 999;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+#scroll-indicator.hide {
+  opacity: 0;
+  pointer-events: none;
 }
 .accroche {
   padding: 80px 20px;
@@ -940,13 +967,18 @@ z-index: -100;
     <span>TON HISTOIRE</span><div class="hero-profile">
 
   </div>
-  
+  <div id="scroll-indicator">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke=#f9d5ec opacity=70% stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down">
+   
+    <polyline points="19 12 12 19 5 12"></polyline>
+  </svg>
+</div>
 </section>
  <section class="intro fade-in-on-scroll">
   <h2>Tu es créateur de contenu ?</h2>
   <h3>Je t'aide à raconter ton histoire.</h3>
   <p>
-    Moi c’est <strong>Norland</strong>, <span class="highlight">monteur expérimenté spécialisé dans le contenu long sur YouTube.<br></span>
+    Moi c’est <strong>Norland</strong>, <span class="highlight">monteur vidéo expérimenté spécialisé dans le contenu long sur YouTube.<br></span>
     <span class="hide-on-mobile">
     Si tu veux donner à tes vidéos un rendu <strong>professionnel</strong>, avec une intro <strong>percutante</strong> et un storytelling <strong>maîtrisé</strong>, tu es au bon endroit.
   </span></p>
@@ -985,7 +1017,7 @@ z-index: -100;
       <div class="overlay">
         <h2>LORIS POKA - 47.5k abonnés</h2>
         <p>« Le premier mort à l'UFC va bientôt arriver. »</p>
-        <p>- 185k vues</p>
+        <p>- 186k vues</p>
       </div>
     </div>
     <div class="carousel-item active">
@@ -994,7 +1026,7 @@ z-index: -100;
       <div class="overlay">
         <h2>Malo Halna - 296k abonnés</h2>
         <p>« Je teste le BARBECUE japonais (Yakiniku) 🥓🇯🇵 »</p>
-        <p>- 97k vues</p>
+        <p>- 100k vues</p>
       </div>
     </div>
     <div class="carousel-item active">
@@ -1227,6 +1259,14 @@ navLinks.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('active');
   });
+});
+window.addEventListener('scroll', () => {
+  const indicator = document.getElementById('scroll-indicator');
+  if (window.scrollY > 10) {
+    indicator.style.opacity = '0';
+  } else {
+    indicator.style.opacity = '1';
+  }
 });
 </script>
 <script>
