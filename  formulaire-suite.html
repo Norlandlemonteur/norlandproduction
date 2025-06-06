@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suite du formulaire – Norland Production</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #0f0f0f;
+      color: white;
+      padding: 40px 20px;
+    }
+
+.background-container {
+  position: fixed;
+  color: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)),
+  overflow: hidden;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -2; /* Derrière tout */
+    }
+
+    .gradient-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.6)); /* Dégradé ici */
+  z-index: 1;
+  pointer-events: none;
+
+}
+    form {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+    }
+
+    .separator {
+      height: 4px;
+      border: none;
+      background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
+      margin: 40px 0 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .italic {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.9rem;
+      margin-top: -5px;
+      margin-bottom: 15px;
+      color: #bbbbbb;
+    }
+
+    textarea,
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"] {
+      width: 100%;
+      padding: 15px;
+      font-size: 1rem;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      background-color: #1a1a1a;
+      color: white;
+      outline: none;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    textarea:focus,
+    input:focus {
+  border-color: #077b8a;
+      box-shadow: 0 0 10px rgba(166, 245, 254, 0.827);
+      outline: none;
+    }
+
+    .radio-group,
+    .checkbox-group {
+      margin-top: 10px;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      accent-color: #FF3D3D;
+      width: 18px;
+      height: 18px;
+    }
+
+    button {
+      background-color: #FF3D3D;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        
+      background-color: #e63333;
+    }
+
+    .back-button {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-bottom: 30px;
+      text-decoration: underline;
+      display: inline-block;
+    }
+
+    @media (max-width: 600px) {
+      button, .back-button {
+        width: 100%;
+      }
+    }
+    @media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 1rem;
+  }
+
+  .hero-text {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  .profile-pic {
+    width: 80px;
+    height: 80px;
+    margin: 1rem auto;
+    display: block;
+  }
+
+  .intro {
+    text-align: center;
+  }
+
+  .cta-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+  </style>
+</head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brief</title>
+</head>
+<body>
+<div class="background-container">
+   <div class="gradient-overlay"></div>
+  <img src="01-1.jpg" alt="fond" class="rotated-bg" />
+</div>
+
+<!-- Remplace l'action par le lien Formspree -->
+<form id="contact-form" action="https://formspree.io/f/xwpbpjbl" method="POST">
+
+  <button class="back-button" type="button" onclick="history.back()">← Retour</button>
+
+  <h1>Dis m’en plus sur ton projet :</h1>
+
+  <hr class="separator">
+
+  <label for="description">Description de ton projet *</label>
+  <p class="italic">Décris ce que tu attends exactement pour ta vidéo. Rajoute autant de détails que possible.</p>
+  <textarea id="description" name="description" rows="5" required></textarea>
+
+  <hr class="separator">
+
+  <label for="exemples">Tu as des exemples de vidéos qui t’inspirent ?</label>
+  <p class="italic">Anciennes vidéos, autres chaînes, …</p>
+  <textarea id="exemples" name="exemples" rows="3"></textarea>
+
+  <hr class="separator">
+
+  <label>Ton projet comprend : *</label>
+  <div class="radio-group">
+    <label><input type="radio" name="contenu" value="audio" required> 🎙️ Juste de l’audio (voix-off à illustrer entièrement)</label>
+    <label><input type="radio" name="contenu" value="caméra"> 📹 Il y a de la caméra (facecam, interview, vlog, etc)</label>
+    <label><input type="radio" name="contenu" value="podcast"> 🎤 C'est un podcast (audio avec ou sans image fixe)</label>
+    <label><input type="radio" name="contenu" value="autre"> ❓ Autre (précise dans la description plus haut)</label>
+  </div>
+
+  <hr class="separator">
+
+  <label>Tu souhaites un style spécifique ? *</label>
+  <div class="checkbox-group">
+    <label><input type="checkbox" name="style[]" value="motion-simple"> 🎨 Motion design simple (titres, transitions)</label>
+    <label><input type="checkbox" name="style[]" value="motion-avance"> 🚀 Motion design avancé (animation de personnages, objets, etc.)</label>
+    <label><input type="checkbox" name="style[]" value="sound-design"> 🎧 Sound design (bruitages, ambiances, effets sonores)</label>
+    <label><input type="checkbox" name="style[]" value="musique"> 🎼 Musiques personnalisées</label>
+    <label><input type="checkbox" name="style[]" value="da"> 🖌️ DA personnalisée</label>
+    <label><input type="checkbox" name="style[]" value="rien"> ❌ Pas besoin de tout ça, je veux du simple et efficace</label>
+  </div>
+
+  <hr class="separator">
+
+  <label for="duree">Combien de temps doit durer ta vidéo ? *</label>
+   <p class="italic">Juste une estimation pour que je sache à quoi m’attendre.</p>
+  <input type="text" id="duree" name="duree" required>
+
+  <hr class="separator">
+
+  <label for="deadline">Tu as une deadline précise ? *</label>
+   <p class="italic">Ça m’aide à m’organiser et à pas te faire attendre</p>
+  <input type="text" id="deadline" name="deadline" required>
+
+  <hr class="separator">
+
+  <label for="budget">As-tu un budget en tête pour ce projet ? (optionnel)</label>
+  <input type="text" id="budget" name="budget">
+
+  <!-- Champs cachés pour les données de la première page -->
+  <input type="hidden" name="name" id="hiddenName">
+  <input type="hidden" name="email" id="hiddenEmail">
+  <input type="hidden" name="youtube" id="hiddenYoutube">
+  <input type="hidden" name="_redirect" value="https://norlandproduction.com/confirmation.html">
+
+  <div style="width: 100%; display: flex; justify-content: center; margin-top: 2rem;">
+    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl hover:bg-indigo-700 transition-all duration-300 shadow-md">
+      Tout est bon !
+    </button>
+  </div>
+
+</form>
+
+<script>
+  // Récupération des données depuis la page précédente
+  const data = JSON.parse(localStorage.getItem('formData'));
+
+  if (data) {
+    document.getElementById('hiddenName').value = data.name || '';
+    document.getElementById('hiddenEmail').value = data.email || '';
+    document.getElementById('hiddenYoutube').value = data.youtube || '';
+  }
+
+  const form = document.getElementById('contact-form');
+
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        headers: { 'Accept': 'application/json' },
+        body: data
+      });
+
+      if (response.ok) {
+        window.location.href = '/confirmation.html';
+      } else {
+        alert("Oups, il y a un problème avec l'envoi du formulaire. Essaie encore.");
+      }
+    } catch (error) {
+      alert("Erreur réseau, merci de réessayer.");
+    }
+  });
+</script>
+</body>
+</html>
