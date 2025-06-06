@@ -187,7 +187,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
 
 .hero-text {
   position: absolute;
-  top: 10%;
+  top: 20%;
   right: 5%;
   font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
   font-size: 120px;
@@ -198,17 +198,11 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   padding: 0;
 }
 .hero img {
-   margin-top: 100px; 
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-   object-position: top;
-     overflow: hidden;
-  display: block;
+ 
 }
 #scroll-indicator {
   position: fixed;
-  bottom: 140px;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
   animation: bounce 2s infinite;
@@ -255,7 +249,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   transform: translateY(0);
 }
 .intro {
-  margin-top: -320px; /* remonte légèrement la section */
+  margin-top: -120px; /* remonte légèrement la section */
   
   padding: 80px 20px 60px 20px;
   text-align: center;
@@ -271,8 +265,8 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
 }
 .intro h3 {
  
-  font-size: 1.3rem;
-  margin-bottom: 60px;
+  font-size: 1.2rem;
+  margin-bottom: 70px;
 }
 
 .intro p {
@@ -292,6 +286,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   text-decoration: none;
   border-radius: 30px;
   transition: background 0.3s;
+   margin-bottom: 40px;
 }
 
 .cta-btn:hover {
@@ -570,6 +565,24 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
 .cta-red:hover {
   background-color: #c92c3a;
 }
+.portfolio-link {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 8px;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.portfolio-link:hover {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+}
 .video-showcase {
     margin-top: -40px;
   padding: 80px 20px;
@@ -752,7 +765,7 @@ object-fit: cover;
 
 
 
-  img[src="fond-site-web-3.png"] {
+  img[src="fond-site-web-2.png"] {
     width: 100%;      /* ou 100%, ou une valeur fixe comme 300px */
     height: 100%;
     display: block;
@@ -997,7 +1010,7 @@ z-index: -100;
  <div class="mobile-bg"></div>
 <header>
   <section class="hero">
-  <img src="fond-site-web-3.png" class="full-width" alt="Bannière Norland">
+  <img src="fond-site-web-2.png" class="full-width" alt="Bannière Norland">
   
   <div class="hero-text">
     <span>UNE VIDÉO,</span><br>
@@ -1047,6 +1060,11 @@ z-index: -100;
   <span class="gradient-text"> leurs histoires:</span>
 </h2>
 <section id="portfolio-carousel" class="carousel-section">
+  <a href="https://youtube.com/playlist?list=PLhle_EGMzbeK1zvNvNM4Y5w_rNHPg1Tdc&si=odYDTJCl19SQ604J" 
+   target="_blank" 
+   class="portfolio-link">
+   Portfolio complet ici 👈
+</a>
   <div class="carousel-track">
     <div class="carousel-item active">
       <video src="videos/video1.mp4" muted loop playsinline></video>
