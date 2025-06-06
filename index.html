@@ -10,7 +10,24 @@
     * {
   font-family: 'Poppins', sans-serif;
 }
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
 
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.burger span {
+  width: 25px;
+  height: 3px;
+  background-color: black;
+  border-radius: 2px;
+}
 .background-container {
   position: fixed;
   color: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)),
@@ -612,55 +629,253 @@ object-fit: cover;
 .footer-links a:hover {
   color: #ffffff;
 }
+
 @media screen and (max-width: 768px) {
-  body {
-    font-size: 16px;
-    padding: 1rem;
-  }
 
-  .hero-text {
-    font-size: 3rem;
-    text-align: center;
-  }
-
-  .profile-pic {
-    width: 80px;
-    height: 80px;
-    margin: 1rem auto;
-    display: block;
-  }
-
-  .intro {
-    text-align: center;
-  }
-
-  .cta-btn {
-    display: block;
-    width: 100%;
-    margin-top: 1rem;
-  }
-
-  nav ul {
+ .nav-links {
+    display: none;
     flex-direction: column;
-    gap: 1rem;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #111;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
   }
-  {
-  /* exemple d’adaptations */
+  .burger span {
+  background-color: white;}
+  .nav-links.active {
+    display: flex;
+  }
+  .burger {
+    display: flex;
+  }
+  .nav-links,
+  .cta-button {
+    display: none;
+  }
+  .rotated-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: rotate(90deg);
+
+}
+
+
+  .background-container {
+    background-color: #000; /* tu peux ajuster si besoin */
+
+  }
+
+  .full-width {
+    object-position: center;
+      opacity: 50%;
+  }
+  .navbar.active .nav-links,
+  .navbar.active .cta-button {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 16px;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 10;
+    width: calc(100% - 32px);
+  }
+
+.hide-on-mobile {
+    display: none;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+    
+  }
+
+  .cta-button {
+    margin-top: 10px;
+  }
+
+  .navbar-links {
+    
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
   .hero-text {
-    font-size: 48px;
-    top: 20%;
-    right: 10%;
+    display: none;
   }
 
-  .carousel-title {
-    font-size: 2.5rem;
+  .navbar-links a {
+    font-size: 14px;
+    padding: 6px 0;
+  }
+   .carousel-title {
+      font-size: 2.8rem;
+      margin: 15px 5px;
+    }
+  
+
+.carousel-title {
+  position: relative;
+  z-index: 2;
+}
+
+
+
+  /* Texte hero plus petit et centré */
+  .hero-text {
+    position: absolute;
+    top: 15%;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 3.5rem; /* plus petit pour mobile */
+    line-height: 1.1;
+    max-width: 90vw;
     text-align: center;
+    color: white;
+    padding: 0 10px;
   }
 
+  /* Ajuster margin top de l’image dans hero */
+  .hero img {
+    margin-top: 60px;
+    object-position: center top;
+  }
+
+  /* Padding et marges plus petits dans intro */
+  .intro {
+    margin-top: -240px; /* ou moins, selon le look */
+    padding-top: 20px; /* optionnel si y’a du padding par défaut */
+  }
+
+  .intro h2 {
+    margin-top: 50px;
+    font-size: 2.8rem;
+  }
+
+  .intro h3 {
+    font-size: 1rem;  
+    margin-top: 50px;
+    margin-bottom: 40px;
+  }
+
+  .intro p {
+    font-size: 1rem;
+    max-width: 95vw;
+  }
+
+  /* Nav-links en colonne (mobile) */
   .nav-links {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
   }
+
+  /* Boutons CTA plus larges et plus faciles à cliquer */
+  .cta-button,
+  .cta-btn,
+  .cta-formulaire,
+  .cta-red {
+    padding: 14px 30px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+  }
+
+ 
+
+  /* Testimonials centrés */
+  .testimonials-section {
+    flex-direction: column;
+    padding: 2rem 1rem;
+  }
+
+  .testimonial {
+    width: 90vw;
+    margin: 0 auto 2rem auto;
+    font-size: 0.95rem;
+  }
+
+  /* Objectif section plus compacte */
+  .objectif-section {
+    padding: 3rem 1rem;
+  }
+.carousel-item {
+  position: relative;
+}
+.overlay {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+ font-size: 0.7rem;
+  transform: translateX(-25%);
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 2;
+  pointer-events: none; /* pour éviter que le texte bloque les clics */
+}
+  .objectif-section h2 {
+    font-size: 2.8rem;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .objectif-section p {
+    font-size: 1rem;
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+.objectif-section .types {
+    margin-top: 24px; /* tu peux augmenter à 32px ou 40px si tu veux plus d’espace */
+  }
+  /* Cacher les dégradés de texte trop grands pour mobile */
+  .gradient-text {
+    font-size: 2.8rem !important;
+  }
+  .confiance-section {
+    padding: 20px 10px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .confiance-section h2 {
+    font-size: 1.8rem !important; /* réduit la taille du titre */
+    margin-bottom: 20px;
+  }
+
+  .hide-on-mobile {
+    display: none;
+  }
+
+  .confiance-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .confiance-logos img {
+    max-width: 70px !important; /* réduit la taille des logos */
+    height: auto;
+    object-fit: contain;
+  }
+  
+ 
+
+ 
+
+ 
+  
 }
 </style>
 </head>
@@ -681,13 +896,19 @@ object-fit: cover;
   <h3>Je t'aide à raconter ton histoire.</h3>
   <p>
     Moi c’est <strong>Norland</strong>, <span class="highlight">monteur expérimenté spécialisé dans le contenu long sur YouTube.<br></span>
+    <span class="hide-on-mobile">
     Si tu veux donner à tes vidéos un rendu <strong>professionnel</strong>, avec une intro <strong>percutante</strong> et un storytelling <strong>maîtrisé</strong>, tu es au bon endroit.
-  </p>
+  </span></p>
   <a href="formulaire.html" class="cta-btn">Parlons de ton projet</a>
 </section>
 
   <nav class="navbar">
     <div class="logo">Norland Production</div>
+       <div class="burger" id="burger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
     <ul class="nav-links">
       <li><a href="#portfolio-carousel">Portfolio</a></li>
       <li><a href="#avis">Avis</a></li>
@@ -702,7 +923,7 @@ object-fit: cover;
   <img src="01-1.jpg" class="full-width" alt="fond" class="rotated-bg" />
 </div>
  <h2 class="carousel-title">
-  Ils m’ont fait<br>   confiance pour <span class="gradient-text"> raconter</span> <br>
+     Ils m’ont fait<br>   confiance pour <span class="gradient-text"> raconter</span> <br>
   <span class="gradient-text"> leurs histoires:</span>
 </h2>
 <section id="portfolio-carousel" class="carousel-section">
@@ -773,11 +994,12 @@ object-fit: cover;
    <h2 class="objectif-title">
   Mon objectif ? <br><span class="gradient-text">Que tu atteignes <br>TON objectif.</span>
 </h2>
+<div class="hide-on-mobile">
     <p>
       Chaque projet est pensé pour <strong>captiver</strong>, raconter une histoire et sublimer ta vision.<br>
       Le <strong>rythme</strong>, l’<strong>esthétique</strong>, la <strong>narration</strong>, chaque seconde doit être la plus immersive possible.
     </p>
-    <h3 class="phrase-importante"><strong>En bref, je ne me contente pas de monter. <span class="highlight">Je raconte.</span></strong></h3>
+    <h3 class="phrase-importante"><strong>En bref, je ne me contente pas de monter. <span class="highlight">Je raconte.</span></strong></h3></div>
     <p class="question">Et toi, c’est quoi ton histoire ?</p>
     <p class="types">Storytelling, VLOG, gaming, vulgarisation, sponso, etc…</p>
     <div style="text-align: center;">
@@ -942,7 +1164,19 @@ window.addEventListener('scroll', () => {
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // pour éviter le scroll négatif
 });
+const burger = document.querySelector('.burger');
+const navLinks = document.querySelector('.nav-links');
 
+burger.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+});
+
+// Quand on clique sur un lien dans le menu, on ferme le menu
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+  });
+});
 </script>
 <script>
   const faders = document.querySelectorAll('.fade-in-on-scroll');
@@ -963,6 +1197,7 @@ window.addEventListener('scroll', () => {
   faders.forEach(fader => {
     appearOnScroll.observe(fader);
   });
+  
 </script>
   </form>
   
