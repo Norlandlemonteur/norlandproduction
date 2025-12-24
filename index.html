@@ -166,15 +166,24 @@ html {
 background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   color: white;
 }
-.hero {
+.hero{
   position: relative;
-  width: 100%;
+  overflow: hidden;
+}
+
+
+
+/* Le texte doit rester au-dessus */
+.hero-text, #scroll-indicator{
+  position: relative;
+  z-index: 3;
 }
 .hero-profile {
   margin-top: 2rem;
   display: flex;
   justify-content: flex-end; /* ALIGNE À DROITE */
   padding-right: 3vw; /* petit décalage depuis le bord droit */
+  
 }
 
 .hero-profile .profile-pic {
@@ -182,7 +191,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   height: 120px;
   border-radius: 50%;
   padding: 2px;
-  background: linear-gradient(135deg, #ffd972, #f9d5ec);
+  background: linear-gradient(35deg, #ffd972, #f9d5ec);
 }
 .full-width {
   width: 100%;
@@ -201,6 +210,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   line-height: 0.9;
   margin: 0;
   padding: 0;
+  
 }
 .hero img {
  
@@ -589,9 +599,9 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   background-color: rgba(0, 0, 0, 0.6);
 }
 .video-showcase {
-    margin-top: -40px;
+  margin-top: -40px;
   padding: 80px 20px;
-  background-color: transparent
+  background-color: transparent;
   text-align: center;
 }
 
@@ -607,7 +617,9 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-
+box-shadow:
+    0 24px 80px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.06);
 }
 
 .video-wrapper video {
@@ -840,6 +852,7 @@ z-index: -100;
 .carousel-title {
   position: relative;
   z-index: 2;
+    margin-top: 40px; /* espace au-dessus du titre */
 }
 
 .mobile-profile {
@@ -1011,16 +1024,380 @@ z-index: -100;
     height: auto;
     object-fit: contain;
   }
-  
- 
+  /* ✅ AJOUTE ÇA */
+}
+.da-showcase{
+  padding: 70px 20px 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 140px; /* espace sous la DA */
+}
+
+.da-header{
+  margin-bottom: 62px;
+}
+
+.da-title{
+  color:#fff;
+  font-size: 4.5rem;
+  line-height: 1.1;
+  margin: 0 0 10px 0;
+   margin-left: -2rem;
+}
+
+.da-subtitle{
+  color:#ccc;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* (optionnel) un peu plus d’écart entre colonne gauche/droite */
+.da-grid{
+  column-gap: 44px;   /* augmente juste l’écart horizontal */
+  row-gap: 22px;
+}
+
+
+/* ===== Collage superposé (desktop) ===== */
+#da-sur-mesure{
+  --p: 0;
+
+  /* ✅ "progress X" : reste à 0 au début, puis monte à 1 plus tard */
+  --px: clamp(0, calc((var(--p) - 0.25) / 0.75), 1);
+}
+
+/* on transforme la grille en "canvas" */
+#da-sur-mesure .da-grid{
+  position: relative;
+  display: block;                 /* important */
+  height: clamp(620px, 78vh, 860px);
+  margin-top: 18px;
+}
+
+/* base card */
+#da-sur-mesure .da-card{
+  position: absolute;
+  max-width: none;
+  width: clamp(280px, 34vw, 520px);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+}
+
+/* taille + profondeur */
+#da-sur-mesure .da-card:nth-child(3){
+  width: clamp(340px, 44vw, 640px);
+  z-index: 1;
+
+  top: 24%;
+  left: 50%;
+
+  /* de ~1.06 au début -> ~0.92 quand --p arrive à 1 */
+  transform:
+    translateX(-50%)
+    translateY(calc(-10px * var(--p)))
+    scale(calc(1.06 - (0.14 * var(--p))));
+}
+
+#da-sur-mesure .da-card:nth-child(1),
+#da-sur-mesure .da-card:nth-child(2){
+  z-index: 4;
+}
+#da-sur-mesure .da-card:nth-child(4),
+#da-sur-mesure .da-card:nth-child(5){
+  z-index: 3;
+}
+
+/* Placement + “écartement” au scroll via --p */
+#da-sur-mesure .da-card:nth-child(1){
+  top: 60px;
+  left: -6vw;
+  transform: translate3d(calc(-60px * var(--px)), calc(-50px * var(--p)), 0) rotate(-2deg);
+}
+
+#da-sur-mesure .da-card:nth-child(2){
+  top: 10px;
+  right: -6vw;
+  transform: translate3d(calc(60px * var(--px)), calc(-50px * var(--p)), 0) rotate(2deg);
+}
+
+#da-sur-mesure .da-card:nth-child(3){
+  top: 54%;
+  left: 50%;
+  transform: translateX(-50%) translateY(calc(-10px * var(--p))) scale(1.06);
+  width: clamp(340px, 44vw, 640px);
+  z-index: 1;
+
+  top: 24%;
+  left: 50%;
+
+  /* de ~1.06 au début -> ~0.92 quand --p arrive à 1 */
+  transform:
+    translateX(-50%)
+    translateY(calc(0px * var(--p)))
+    scale(calc(1.06 - (0.14 * var(--p))));
+}
+
+#da-sur-mesure .da-card:nth-child(4){
+  bottom: -20px;
+  left: 12vw;
+  transform: translate3d(calc(-260px * var(--p)), calc(80px * var(--p)), 0) rotate(1.5deg);
+  z-index: 0;
+}
+
+#da-sur-mesure .da-card:nth-child(5){
+  bottom:  40px;
+  right: 7vw;
+  transform: translate3d(calc(260px * var(--p)), calc(80px * var(--p)), 0) rotate(-1.5deg);
+  z-index: 0;
+}
+
+/* ===== Mobile : on revient en liste propre ===== */
+@media (max-width: 768px){
+  #da-sur-mesure .da-grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 22px;
+  }
+  #da-sur-mesure .da-card{
+    position: relative;
+    width: 100%;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 768px){
+  .da-grid{ grid-template-columns: 1fr; }
+  .da-title{ font-size: 2.1rem; }
+}
+
+/* ✅ Animation déplacée sur .da-inner (évite les conflits avec le collage) */
+#da-sur-mesure .da-inner{
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.25);
+ box-shadow:
+    0 24px 80px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.06);
+  transform: translateY(48px) scale(0.985);
+  opacity: 0;
+  filter: blur(10px);
+  will-change: transform, opacity, filter;
+
+  transition:
+    transform 9.55s cubic-bezier(.22,1,.36,1),
+    opacity 4.55s cubic-bezier(.22,1,.36,1),
+    filter 2.55s cubic-bezier(.22,1,.36,1);
+
+  transition-delay: var(--d, 0ms);
+}
+
+#da-sur-mesure .da-card.is-in .da-inner{
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  filter: blur(0);
+}
+
+#da-sur-mesure .da-card:hover .da-inner{
+  transform: translateY(-6px) scale(1.01);
+}
+
+.da-video{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  object-fit: cover;
+  filter: brightness(0.92);
+}
+
+.da-label{
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  color: #fff;
+  background: rgba(0,0,0,0.45);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  backdrop-filter: blur(6px);
+}
+/* ✅ FIX MOBILE : DA sur-mesure en liste + texte qui tient */
+@media (max-width: 768px){
+
+  /* Titre / texte */
+  #da-sur-mesure .da-title{
+    font-size: 2.6rem;
+    margin-left: 0;          /* enlève ton margin négatif desktop */
+    margin-right: 0;
+    line-height: 1.12;
+    font-weight: 700;
+    text-align: left;
+    overflow-wrap: anywhere; /* évite le débordement */
+    hyphens: auto;
+  }
+    #da-sur-mesure .da-title .da-top,
+  #da-sur-mesure .da-title .gradient-text{
+    font-size: inherit !important;
+    line-height: inherit;
+    font-weight: inherit;
+  }
+
+
+  /* La grille redevient un flux normal (une carte sous l’autre) */
+  #da-sur-mesure .da-grid{
+    position: static !important;
+    display: flex !important;
+    flex-direction: column;
+    height: auto !important;
+    gap: 22px;
+    margin-top: 16px;
+  }
+
+  /* Chaque card reprend un comportement normal */
+  #da-sur-mesure .da-card{
+    position: static !important;
+    width: 100% !important;
+    max-width: 520px;
+    margin: 0 auto;
+        z-index: 1;
+          margin-top: -38px; /* ajuste: -10 à -28 selon ton goût */
+    z-index: 24;
+
+    /* IMPORTANT : neutralise les placements desktop */
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+
+    transform: none !important;
+  }
+  #da-sur-mesure .da-card:nth-child(1){ z-index: 5; }
+  #da-sur-mesure .da-card:nth-child(2){ z-index: 4; }
+  #da-sur-mesure .da-card:nth-child(3){ z-index: 3; }
+  #da-sur-mesure .da-card:nth-child(4){ z-index: 2; }
+  #da-sur-mesure .da-card:nth-child(5){ z-index: 1; }
+  /* Optionnel : un peu plus léger sur mobile */
+    #da-sur-mesure .da-card:nth-child(2){ transform: translateY(2px)  scale(0.99) !important; }
+  #da-sur-mesure .da-card:nth-child(3){ transform: translateY(4px)  scale(0.98) !important; }
+  #da-sur-mesure .da-card:nth-child(4){ transform: translateY(6px)  scale(0.97) !important; }
+  #da-sur-mesure .da-card:nth-child(5){ transform: translateY(8px)  scale(0.96) !important; }
 
  
+  #da-sur-mesure .da-label{ font-size: 0.9rem; }
+}
+.da-showcase{
+  padding-bottom: 50px; /* au lieu de 140px */
+}
+/* ===== HERO TITLE GLOW + ANIM ===== */
+.hero-title{
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.45));
+}
 
- 
-  
+.hero-kicker{
+  text-shadow:
+    0 0 12px rgba(255,255,255,0.18),
+    0 0 28px rgba(249,213,236,0.12);
+}
+
+/* Si tu veux garder blanc : laisse color inherit.
+   Si tu veux un dégradé sur "TON HISTOIRE", tu peux ajouter class="gradient-text" aussi. */
+.hero-main{
+  display: inline-block;
+  animation: glowPulse 3.6s ease-in-out infinite;
+  will-change: filter;
+  filter:
+    drop-shadow(0 0 14px rgba(162,213,198,0.14))
+    drop-shadow(0 0 22px rgba(7,123,138,0.10))
+    drop-shadow(0 0 28px rgba(92,60,146,0.10));
+}
+
+@keyframes glowPulse{
+  0%,100%{
+    filter:
+      drop-shadow(0 0 10px rgba(162,213,198,0.10))
+      drop-shadow(0 0 18px rgba(7,123,138,0.08))
+      drop-shadow(0 0 24px rgba(92,60,146,0.08));
+  }
+  50%{
+    filter:
+      drop-shadow(0 0 14px rgba(162,213,198,0.16))
+      drop-shadow(0 0 24px rgba(7,123,138,0.12))
+      drop-shadow(0 0 32px rgba(92,60,146,0.12));
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero-main{ animation: none; }
+}
+/* ===== Animation légère sur le titre (sans dégradé) ===== */
+.hero-main{
+  display: inline-block;
+  animation: heroGlow 3.2s ease-in-out infinite;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.10),
+    0 0 22px rgba(249,213,236,0.10);
+  will-change: transform, text-shadow, opacity;
+}
+
+@keyframes heroGlow{
+  0%, 100%{
+    transform: translateY(0) scale(1);
+    opacity: 0.98;
+    text-shadow:
+      0 0 10px rgba(255,255,255,0.10),
+      0 0 22px rgba(249,213,236,0.10);
+  }
+  50%{
+    transform: translateY(-1px) scale(1.01);
+    opacity: 1;
+    text-shadow:
+      0 0 14px rgba(255,255,255,0.16),
+      0 0 30px rgba(249,213,236,0.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero-main{ animation: none; }
+}
+/* Kicker : arrive une fois, léger et premium */
+/* Kicker : très smooth, léger, premium */
+.hero-kicker{
+  display: inline-block;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(6px);
+
+  animation: kickerIn 3200ms cubic-bezier(.12, 1, .22, 1) both;
+  animation-delay: 260ms;
+}
+
+/* Optionnel : plus petit que TON HISTOIRE */
+.hero-text .hero-kicker{ font-size: 0.55em; } /* ajuste 0.45 → 0.60 */
+
+/* Arrivée */
+@keyframes kickerIn{
+  from{
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+  to{
+    opacity: 0.85;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero-kicker{ animation: none; opacity: 0.85; }
 }
 </style>
 </head>
+
 <body>
 <!-- NAVIGATION FIXE -->
  <div class="mobile-bg"></div>
@@ -1028,11 +1405,10 @@ z-index: -100;
   <section class="hero">
   <img src="fond-site-web-2.png" class="full-width" alt="Bannière Norland">
   
-  <div class="hero-text">
-    <span>UNE VIDÉO,</span><br>
-    <span>TON HISTOIRE</span><div class="hero-profile">
-
-  </div>
+  <div class="hero-text hero-title">
+  <span class="hero-kicker">UNE VIDÉO,</span><br>
+  <span class="hero-main">TON HISTOIRE</span>
+</div>
   <div id="scroll-indicator">
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke=#f9d5ec opacity=70% stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down">
    
@@ -1072,6 +1448,61 @@ z-index: -100;
    <div class="gradient-overlay"></div>
   <img src="01-1.jpg" class="background-image" class="full-width" alt="fond" class="rotated-bg" />
 </div>
+<section id="da-sur-mesure" class="da-showcase">
+  <div class="da-header">
+   <h2 class="da-title">
+  <span class="da-top">Ton univers,</span><br>
+   <span class="gradient-text">ta DA sur-mesure</span>
+</h2>
+  </div>
+
+  <div class="da-grid">
+    <article class="da-card reveal" style="--d:0ms">
+      <div class="da-inner">
+      <video class="da-video" autoplay muted loop playsinline preload="metadata">
+        <source src="videos/DA-01-techno-militaire.mp4" type="video/mp4">
+      </video>
+      <div class="da-label">Techno / Militaire</div>
+    </div>
+    </article>
+
+    <article class="da-card reveal" style="--d:180ms">
+      <div class="da-inner">
+      <video class="da-video" autoplay muted loop playsinline preload="metadata">
+        <source src="videos/DA-02-sport-geo.mp4" type="video/mp4">
+      </video>
+      <div class="da-label">Sport / Géo</div>
+    </div>
+    </article>
+
+    <article class="da-card reveal" style="--d:360ms">
+      <div class="da-inner">
+      <video class="da-video" autoplay muted loop playsinline preload="metadata">
+        <source src="videos/DA-03-true-crime.mp4" type="video/mp4">
+      </video>
+      <div class="da-label">True Crime</div>
+    </div>
+    </article>
+
+    <article class="da-card reveal" style="--d:440ms">
+      <div class="da-inner">
+      <video class="da-video" autoplay muted loop playsinline preload="metadata">
+        <source src="videos/DA-04-musique-film.mp4" type="video/mp4">
+      </video>
+      <div class="da-label">Musique / Film</div>
+    </div>
+    </article>
+
+    <article class="da-card reveal" style="--d:500ms">
+      <div class="da-inner">
+      <video class="da-video" autoplay muted loop playsinline preload="metadata">
+        <source src="videos/DA-05-horreur-internet.mp4" type="video/mp4">
+      </video>
+      <div class="da-label">Horreur / Internet</div>
+    </div>
+    </article>
+  </div>
+</section>
  <h2 class="carousel-title">
      Ils m’ont fait<br>   confiance pour <span class="gradient-text"> raconter</span> <br>
   <span class="gradient-text"> leurs histoires:</span>
@@ -1341,29 +1772,69 @@ window.addEventListener('scroll', () => {
   }
 });
 </script>
-<script>
-  const faders = document.querySelectorAll('.fade-in-on-scroll');
 
-  const appearOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+<script>
+(() => {
+  const cards = document.querySelectorAll('#da-sur-mesure .da-card');
+
+  // 👉 Ajuste ces 2 valeurs si tu veux que ça apparaisse plus tard
+  const OBS_OPTIONS = {
+    threshold: 0.55,               // + grand = apparaît plus tard (0.6 / 0.7)
+    rootMargin: "0px 0px -20% 0px"  // plus négatif = apparaît plus tard (-30%)
   };
 
-  const appearOnScroll = new IntersectionObserver(function(entries, observer) {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    });
-  }, appearOptions);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      const v = e.target.querySelector('video');
 
-  faders.forEach(fader => {
-    appearOnScroll.observe(fader);
-  });
-  
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        v?.play().catch(() => {});
+      } else {
+        e.target.classList.remove('is-in');
+        v?.pause();
+      }
+    });
+  }, OBS_OPTIONS);
+
+  cards.forEach(card => io.observe(card));
+})();
 </script>
-  </form>
-  
-</section>
+
+<script>
+(() => {
+  const section = document.getElementById('da-sur-mesure');
+  if (!section) return;
+
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+  function update(){
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    // p=0 quand la section arrive, p=1 un peu après (effet "écartement")
+    const start = vh * 0.80;
+    const end   = vh * 0.10;
+
+    const p = clamp((start - rect.top) / (start - end), 0, 1);
+    section.style.setProperty('--p', p.toFixed(3));
+  }
+
+  let ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      update();
+      ticking = false;
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+
 </body>
 </html>
