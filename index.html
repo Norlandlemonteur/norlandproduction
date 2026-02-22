@@ -161,18 +161,52 @@ nav.hidden {
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   display: inline-block;
-  transition: background-color 0.3s ease;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, filter .22s ease;
+  will-change: transform, box-shadow;
 }
 html {
+
   scroll-behavior: smooth;
 }
-.cta-button:hover {
-background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
-  color: white;
+.cta-button::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity .22s ease;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.14),
+    rgba(255,255,255,0.00) 35%,
+    rgba(255,255,255,0.00) 65%,
+    rgba(255,255,255,0.08)
+  );
+}
+
+.cta-button:hover::before{ opacity: 1; }
+
+.cta-button:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.20);
+  box-shadow:
+    0 22px 70px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.10),
+    0 0 30px rgba(249,213,236,0.10);
+}
+
+/* Mobile : pas de lift agressif */
+@media (max-width: 768px){
+  .cta-btn:hover,
+  .cta-button:hover{
+    transform: none;
+  }
 }
 .hero{
   position: relative;
   overflow: hidden;
+  margin: clamp(46px, 4vh, 64px) auto 0;
+  margin-bottom: -100px;
 }
 
 
@@ -182,21 +216,71 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   position: relative;
   z-index: 3;
   
+  
 }
-.hero-profile {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: flex-end; /* ALIGNE À DROITE */
-  padding-right: 3vw; /* petit décalage depuis le bord droit */
+.hero-profile{
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  padding: 10px 12px;
+  border-radius: 14px;
+transition: opacity 0.35s ease, transform 0.35s ease;
+  will-change: opacity, transform;
+  margin: clamp(64px, 4vh, 64px) auto 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease; /* ✅ rapide */
+  will-change: opacity, transform;
+  
+}
+.hero-profile.intro-in{
+  transition: opacity 1800ms cubic-bezier(.16, 1, .3, 1) 1400ms,
+              transform 1800ms cubic-bezier(.16, 1, .3, 1) 1400ms;
+}
+.hero-profile.is-ready{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-avatar{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid transparent;
+  background: linear-gradient(135deg, #ffd972, #f9d5ec);
+   padding: 1px;                 /* épaisseur du “border” */
+  background-clip: padding-box;
   
 }
 
-.hero-profile .profile-pic {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  padding: 2px;
-  background: linear-gradient(35deg, #ffd972, #f9d5ec);
+.hero-profile-text{
+  display:flex;
+  flex-direction:column;
+  
+  gap:6px;
+  
+}
+
+.hero-name{
+  margin: clamp(2px, 4vh, 14px) auto 0;
+  letter-spacing: 0.3px;
+  opacity: 0.92;
+  
+}
+.hero-name strong{
+  font-weight: 900;
+}
+
+.hero-promise{
+  font-size: 15px;
+  line-height: 1.35;
+  opacity: 0.85;
+
+}
+.hero-promise em{
+  font-style: italic;
 }
 .full-width {
   width: 100%;
@@ -206,7 +290,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
 
 .hero-text {
   position: absolute;
-  top: 20%;
+
   right: 5%;
   font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
   font-size: 120px;
@@ -217,12 +301,13 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   padding: 0;
   
 }
-.hero img {
- opacity: 0;
+.hero img.full-width{
+  opacity: 0; /* ou 1 si tu veux voir la bannière */
 }
+
 #scroll-indicator {
   position: fixed;
-  bottom: 100px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   animation: bounce 2s infinite;
@@ -235,7 +320,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   0%, 100% {
     transform: translateX(-50%) translateY(0);
   }
-  50% {
+  90% {
     transform: translateX(-50%) translateY(10px);
   }
 }
@@ -243,6 +328,7 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
 #scroll-indicator.hide {
   opacity: 0;
   pointer-events: none;
+  
 }
 .accroche {
   padding: 80px 20px;
@@ -259,34 +345,37 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
 }
 
 .fade-in-on-scroll {
+
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 .fade-in-on-scroll.visible {
+
   opacity: 1;
   transform: translateY(0);
 }
-.intro {
-  margin-top: -120px; /* remonte légèrement la section */
-  
-  padding: 80px 20px 60px 20px;
+.intro{
+  margin-top: -920;              /* enlève le -120px (ça crée des chevauchements) */
+  padding: -990px 20px 70px;
   text-align: center;
   background: transparent;
-  color: white;
-  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.intro h2 {
-  
-  font-size: 3.5rem;
-  margin-bottom: 20px;
+.intro h2{
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  margin-bottom: 14px;
 }
-.intro h3 {
- 
-  font-size: 1.2rem;
-  margin-bottom: 70px;
+
+.intro h3{
+  font-size: 1.05rem;
+  opacity: 0.85;
+  margin-bottom: 34px;
 }
 
 .intro p {
@@ -294,6 +383,57 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   line-height: 1.6;
   max-width: 1600px;
   margin: 10px auto;
+}
+.intro .cta-btn{
+  display: inline-block;
+  margin: 26px auto 0;
+}
+
+.benefits{
+  margin: 28px auto 18px;
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  justify-items: stretch;
+}
+
+.benefit{
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 14px 14px;
+  backdrop-filter: blur(6px);
+}
+
+.benefit-title{
+  display:block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.benefit-text{
+  display:block;
+  font-size: 0.95rem;
+  opacity: 0.78;
+  color: #fff;
+}
+
+.intro-note{
+  margin-top: 10px;
+  font-size: 1.05rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 768px){
+  .benefits{
+    grid-template-columns: 1fr;
+    max-width: 92vw;
+  }
 }
 
 .cta-btn {
@@ -305,16 +445,40 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   background: #d72631;
   text-decoration: none;
   border-radius: 30px;
-  transition: background 0.3s;
-   margin-bottom: 40px;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, filter .22s ease;
+  will-change: transform, box-shadow;
 }
 
-.cta-btn:hover {
-  background: #5c3c92;
+.cta-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity .22s ease;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.14),
+    rgba(255,255,255,0.00) 35%,
+    rgba(255,255,255,0.00) 65%,
+    rgba(255,255,255,0.08)
+  );
 }
+
+.cta-btn:hover::before{ opacity: 1; }
+
+.cta-btn:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.20);
+  box-shadow:
+    0 22px 70px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.10),
+    0 0 30px rgba(249,213,236,0.10);
+}
+
 
 .presentation {
-  max-width: 800px;
+  max-width: 80px;
   margin: 0 auto;
 }
 
@@ -570,21 +734,69 @@ background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
   color: #ccc;
 }
 
-.cta-red {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 12px 25px;
-  font-weight: bold;
-  color: white;
+.cta-red{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
   background: #d72631;
-  text-decoration: none;
-  border-radius: 30px;
-  transition: background 0.3s;
-  
+  color:#fff;
+  padding: 12px 25px;
+  border-radius: 999px;
+  text-decoration:none;
+  font-weight: 700;
+
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 18px 60px rgba(0,0,0,0.35);
+
+  position: relative;
+  overflow: hidden;
+
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, filter .22s ease;
 }
 
-.cta-red:hover {
-  background-color: #c92c3a;
+/* Glint identique aux cards (subtil, premium) */
+.cta-red{
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-red::before{
+  content:"";
+  position:absolute;
+  inset:0;                /* ✅ pas de -2px => pas de “cadre” */
+  border-radius: inherit; /* ✅ suit parfaitement le bouton */
+  pointer-events:none;
+  opacity:0;
+  transition: opacity .22s ease;
+
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.14),
+    rgba(255,255,255,0.00) 35%,
+    rgba(255,255,255,0.00) 65%,
+    rgba(255,255,255,0.08)
+  );
+}
+
+.cta-red:hover::before{
+  opacity:1;
+}
+.cta-red:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.20);
+  box-shadow:
+    0 22px 70px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.10),
+    0 0 30px rgba(249,213,236,0.10);
+}
+/* Animation du sheen au hover */
+
+
+@keyframes ctaSheen{
+  from{ left: -60%; }
+  to  { left: 140%; }
 }
 .portfolio-link {
   position: absolute;
@@ -1040,7 +1252,8 @@ z-index: -100;
 }
 
 .da-header{
-  margin-bottom: 62px;
+  margin-bottom: 102px;
+    margin-top: 108px;
 }
 
 .da-title{
@@ -1519,16 +1732,7 @@ z-index: -100;
 }
 
 /* Halo doux derrière le texte (lisibilité premium) */
-.hero .hero-text.hero-stack::before{
-  content:"";
-  position:absolute;
-  inset: -120px -180px -120px -180px;
-  background: linear-gradient(90deg, #a2d5c6, #077b8a, #5c3c92);
-  filter: blur(18px);
-  z-index: -1;
-  pointer-events: none;
-    opacity: var(--haloOpacity, 0.10); /* 0.10 = 10% */
-}
+
 
 /* Kicker centré + propre */
 .hero .hero-text.hero-stack .hero-kicker{
@@ -1660,7 +1864,1155 @@ z-index: -100;
   70%  { opacity: .70; filter: blur(2px); }
   100% { opacity: .70; transform: translateY(0);   filter: blur(0); }
 }
+.is-hidden{
+  display: none !important;
+}
+.works{
+  padding: 70px 20px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #fff;
+}
 
+.works-head{
+  margin-bottom: 22px;
+}
+.works-title{
+  font-size: clamp(2.0rem, 4vw, 3.2rem);
+  margin: 0 0 10px 0;
+}
+.works-sub{
+  margin: 0;
+  opacity: .75;
+}
+
+.works-marquee{
+  position: relative;
+  margin-top: 26px;
+}
+
+.work-row{
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  padding: 10px 0;
+}
+
+.work-track{
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+}
+
+.dir-left .work-track{
+  animation: marqueeLeft var(--dur, 70s) linear infinite;
+}
+.dir-right .work-track{
+  animation: marqueeRight var(--dur, 72s) linear infinite;
+}
+
+/* Pause globale au hover */
+.works-marquee.is-paused .work-track{
+  animation-play-state: paused;
+}
+
+/* Cards */
+.work-card{
+  position: relative;
+  display: block;
+  width: clamp(260px, 28vw, 420px);
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+  transform: translateZ(0);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.work-card img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.01);
+}
+
+/* Overlay */
+.work-overlay{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.10));
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+
+.work-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.work-chip{
+  font-size: 0.85rem;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.10);
+  white-space: nowrap;
+}
+
+.work-link{
+  font-size: 0.85rem;
+  opacity: .9;
+  white-space: nowrap;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.work-creator{
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.work-name{
+  opacity: .92;
+  line-height: 1.25;
+}
+
+/* Mode focus (hover sur une carte) */
+.works-marquee.is-hovering .work-card{
+  filter: grayscale(1) opacity(0.22);
+  transition: filter .25s ease, transform .25s ease;
+}
+
+.works-marquee.is-hovering .work-card.is-active{
+  filter: none;
+  opacity: 1;
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(255,255,255,0.22);
+}
+
+.works-marquee.is-hovering .work-card.is-active .work-overlay{
+  opacity: 1;
+}
+
+/* Footer lien */
+.works-foot{
+  margin-top: 16px;
+  text-align: right;
+}
+.works-more{
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+}
+.works-more:hover{
+  color: #fff;
+}
+
+/* Keyframes */
+@keyframes marqueeLeft{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marqueeRight{
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+/* Mobile : pas de marquee, grille */
+@media (max-width: 768px){
+  .work-row{
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  .work-track{
+    animation: none !important;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .work-card{
+    width: 100%;
+  }
+  .works-foot{ text-align: center; }
+}
+
+.works-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom: 22px;
+  margin-top: 62px;
+}
+
+.works-btn{
+  display:inline-block;
+  padding: 12px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #fff;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+  white-space: nowrap;
+}
+
+.works-btn:hover{
+  transform: translateY(-1px);
+  background: rgba(0,0,0,0.5);
+  border-color: rgba(255,255,255,0.22);
+}
+
+@media (max-width: 768px){
+  .works-head{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
+.work-card{
+  color: #fff;
+  text-decoration: none;
+}
+
+.work-card:visited{
+  color: #fff;
+}
+
+.work-card:hover,
+.work-card:active,
+.work-card:focus{
+  color: #fff;
+  text-decoration: none;
+}
+
+.work-card:focus{
+  outline: none;
+}
+
+.work-card:focus-visible{
+  outline: 2px solid rgba(255,255,255,0.25);
+  outline-offset: 4px;
+}
+.testimonials-head{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px 10px;
+  text-align: center;          /* ✅ gauche */
+}
+
+.testimonials-title{
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0 0 10px 0;
+  color: #fff;
+}
+
+.testimonials-sub{
+  margin: 0;
+  opacity: .75;
+  color: #fff;
+}
+
+/* ✅ PROCESS SECTION — style cohérent avec ta DA (cartes sombres / blur) */
+.process-block{
+  padding: 70px 20px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.process-head{
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.process-title{
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0 0 10px 0;
+}
+
+.process-sub{
+  margin: 0;
+  opacity: .75;
+  max-width: 780px;
+}
+
+.process-cards{
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.process-card{
+  background: rgba(0,0,0,0.30);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+  padding: 16px 16px 52px; /* ✅ espace en bas pour le numéro */
+  backdrop-filter: blur(6px);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.process-num{
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.10);
+  opacity: .85;
+  margin: 0; /* ✅ plus besoin de margin */
+}
+
+.process-card-title{
+  margin: 0 0 8px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.process-card-text{
+  margin: 0;
+  opacity: .80;
+  line-height: 1.45;
+  font-size: 0.98rem;
+}
+
+.process-cta{
+  margin-top: 22px;
+  text-align: center;
+}
+
+@media (max-width: 1024px){
+  .process-cards{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px){
+  .process-cards{
+    grid-template-columns: 1fr;
+  }
+  .process-cta{
+    text-align: center;
+  }
+}
+
+/* ✅ TARIFS — 2 colonnes, style premium sombre */
+.pricing{
+  padding: 70px 20px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #fff;
+  
+}
+
+.pricing-head{
+  text-align: left;
+  margin-bottom: 22px;
+}
+
+.pricing-title{
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0 0 10px 0;
+}
+
+.pricing-sub{
+  margin: 0;
+  opacity: .75;
+  max-width: 760px;
+}
+
+.pricing-grid{
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+   position: relative;
+}
+
+.pricing-card{
+  background: rgba(0,0,0,0.30);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+  padding: 18px 18px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, filter .22s ease, opacity .22s ease;
+}
+
+.pricing-grid:hover .pricing-card{
+  opacity: 0.72;
+  filter: grayscale(0.15);
+}
+.pricing-grid:hover .pricing-card:hover{
+  opacity: 1;
+  filter: none;
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.26);
+  box-shadow:
+    0 22px 80px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.10),
+    0 0 30px rgba(249,213,236,0.12);
+}
+
+/* Petit "glint" subtil (reflet) */
+.pricing-card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius: 14px;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity .22s ease;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0.00) 35%,
+    rgba(255,255,255,0.00) 65%,
+    rgba(255,255,255,0.10)
+  );
+}
+
+.pricing-grid:hover .pricing-card:hover::before{
+  opacity: 1;
+}
+.pricing-top{
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.pricing-name{
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.pricing-price{
+  font-size: 1rem;
+  opacity: .9;
+  white-space: nowrap;
+}
+
+.pricing-desc{
+  margin: 0 0 10px 0;
+  opacity: .85;
+  line-height: 1.55;
+}
+
+.pricing-for{
+  margin: 0;
+ font-style: italic;
+  font-weight: 300;
+  opacity: 0.65;
+}
+
+.pricing-note{
+  margin: 16px 0 0 0;
+  opacity: .80;
+  max-width: 860px;
+}
+
+.pricing-cta{
+  margin-top: 22px;
+  text-align: left;
+}
+
+@media (max-width: 768px){
+  .pricing-grid{
+    grid-template-columns: 1fr;
+  }
+  .pricing-cta{
+    text-align: center;
+  }
+}
+/* === HERO PROFILE : glow like pricing === */
+.hero-profile{
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+
+.hero-profile:hover{
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.20);
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 36px rgba(162,213,198,.12),
+    0 0 46px rgba(7,123,138,.10),
+    0 0 56px rgba(92,60,146,.10);
+}
+/* === BENEFITS : dim others + spotlight like pricing === */
+.benefit{
+  transition: transform .25s ease, opacity .25s ease, filter .25s ease,
+              border-color .25s ease, box-shadow .25s ease;
+}
+
+/* Quand on survole la zone, tout s'assombrit légèrement */
+.benefits:hover .benefit{
+  opacity: .55;
+  filter: grayscale(.35);
+}
+
+/* La carte survolée redevient nette + glow */
+.benefits .benefit:hover{
+  opacity: 1;
+  filter: none;
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,.20);
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 36px rgba(162,213,198,.12),
+    0 0 46px rgba(7,123,138,.10),
+    0 0 56px rgba(92,60,146,.10);
+}
+/* === PROCESS : dim others + spotlight like pricing === */
+.process-card{
+  transition: transform .25s ease, opacity .25s ease, filter .25s ease,
+              border-color .25s ease, box-shadow .25s ease;
+}
+
+.process-cards:hover .process-card{
+  opacity: .55;
+  filter: grayscale(.35);
+}
+
+.process-cards .process-card:hover{
+  opacity: 1;
+  filter: none;
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,.20);
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 36px rgba(162,213,198,.12),
+    0 0 46px rgba(7,123,138,.10),
+    0 0 56px rgba(92,60,146,.10);
+}
+@media (max-width: 768px){
+  .benefits:hover .benefit,
+  .process-cards:hover .process-card{
+    opacity: 1;
+    filter: none;
+  }
+
+  .benefit:hover,
+  .process-card:hover,
+  .hero-profile:hover{
+    transform: none;
+  }
+}
+/* ✅ Premium = glow doré (override) */
+.pricing-card.premium:hover{
+  border-color: rgba(255, 215, 0, 0.22) !important;
+  box-shadow:
+    0 24px 80px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.08),
+    0 0 36px rgba(255, 215, 0, 0.14),
+    0 0 60px rgba(255, 186, 73, 0.10) !important;
+}
+
+/* ✅ Badge doré à côté du titre "Premium" */
+.pricing-card.premium .pricing-name{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pricing-card.premium .pricing-name::after{
+  content: "Recommandé";
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 215, 0, 0.10);
+  border: 1px solid rgba(255, 215, 0, 0.22);
+  color: rgba(255, 235, 170, 0.95);
+  font-weight: 600;
+}
+
+.faq{
+  padding: 60px 20px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #fff;
+  margin-bottom: 60px;
+}
+
+.faq-head{ text-align:left; margin-bottom:18px; }
+.faq-title{ font-size: clamp(1.8rem, 3.6vw, 2.6rem); margin:0 0 8px 0; }
+.faq-sub{ margin:0; opacity:.75; }
+
+.faq-list{
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+/* Base card */
+.faq-item{
+  background: rgba(0,0,0,0.30);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 14px;
+  padding: 14px 16px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+  position: relative;
+  overflow: hidden;
+
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease,
+              filter .22s ease, opacity .22s ease;
+}
+
+/* Question row */
+.faq-q{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 16px;
+  cursor: default;
+  font-weight: 700;
+  opacity: .92;
+}
+
+.faq-icon{
+  opacity:.65;
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+/* Answer hidden by default */
+/* Answer container (smooth) */
+.faq-a{
+  display: grid;
+  grid-template-rows: 0fr;         /* fermé */
+  transition: grid-template-rows 360ms cubic-bezier(.16,1,.3,1),
+              opacity 260ms ease,
+              transform 260ms ease;
+  opacity: 0;
+  transform: translateY(6px);
+  margin-top: 0;
+}
+
+/* Le texte réel à l’intérieur */
+.faq-a > div{
+  overflow: hidden;
+  line-height: 1.6;
+  opacity: .85;
+}
+
+/* Hover = ouvert */
+.faq-item:hover .faq-a{
+  grid-template-rows: 1fr;
+  opacity: .90;
+  transform: translateY(0);
+  margin-top: 10px;
+}
+
+/* --- Dim others like pricing --- */
+.faq-list:hover .faq-item{
+  opacity: .55;
+  filter: grayscale(.35);
+}
+
+/* Active card on hover */
+.faq-item:hover{
+  opacity: 1;
+  filter: none;
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.20);
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 36px rgba(162,213,198,.12),
+    0 0 46px rgba(7,123,138,.10),
+    0 0 56px rgba(92,60,146,.10);
+}
+
+/* Show answer on hover */
+.faq-item:hover .faq-a{
+  max-height: 200px;
+  opacity: .85;
+  transform: translateY(0);
+  margin-top: 10px;
+}
+
+.faq-item:hover .faq-icon{
+  transform: rotate(45deg);
+  opacity: .9;
+}
+
+/* CTA alignment */
+.faq-cta{ margin-top: 18px; text-align: left; }
+@media (max-width:768px){
+  /* mobile: pas de dim others (hover inutile) */
+  .faq-list:hover .faq-item{ opacity:1; filter:none; }
+  .faq-item:hover{ transform:none; }
+  .faq-cta{ text-align:center; }
+}
+
+.faq-q{ font-weight: 800; opacity: 1; }
+.faq-a > div{ font-weight: 400; opacity: 0.75; }
+
+#tarifs{ scroll-margin-top: 110px; }
+#avis{ scroll-margin-top: 110px; }
+
+/* =========================
+   ✅ PATCH MOBILE ONLY
+   (ne touche pas au desktop)
+   ========================= */
+@media (max-width: 768px){
+
+  /* 1) On vire complètement le fond-mobile.png */
+  .mobile-bg{
+    display: none !important;
+    background-image: none !important;
+  }
+
+  /* 2) On garde le fond "DA classique" (01-1.jpg) propre */
+  .background-container{
+    z-index: -2 !important;
+  }
+  .background-container img.background-image{
+    opacity: 1 !important;
+    transform: none !important;       /* stop rotate/overrides */
+    rotate: 0deg !important;
+  }
+
+  /* 3) On réactive le HERO : ne cache plus le texte */
+  .hero .hero-text.hero-stack{
+    display: block !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    padding: 110px 16px 24px !important; /* espace sous la navbar */
+    text-align: center !important;
+  }
+
+  /* Tu masquais explicitement l'image hero -> on la laisse respirer */
+  img[src="fond-site-web-2.png"]{
+    opacity: 0 !important; /* on garde ta DA fond fixe, donc l'image hero reste invisible */
+    height: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 4) "Moins de charge mentale" : blanc sobre */
+  .intro h2{
+    background: none !important;
+    -webkit-text-fill-color: #fff !important;
+    color: #fff !important;
+  }
+
+  /* 5) Fix "Sélection de montages" en double :
+        sur mobile on cache les clones (utiles seulement pour la boucle desktop) */
+  #worksMarquee .work-card.clone{
+    display: none !important;
+  }
+
+  /* 6) Fix navbar : évite débordements / CTA */
+  .navbar{
+    padding: 14px 16px !important;
+  }
+  .cta-button{
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.1 !important;
+    padding: 12px 16px !important;
+  }
+
+  /* 7) Tarifs : les cartes rentrent TOUJOURS */
+  .pricing,
+  .pricing-grid,
+  .pricing-card{
+    max-width: 100% !important;
+  }
+  .pricing-grid{
+    grid-template-columns: 1fr !important;
+  }
+  .pricing-card{
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 16px !important;
+  }
+  .pricing-top{
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+  .pricing-price{
+    white-space: normal !important;
+  }
+
+  /* 8) Avis / Tarifs qui "fade out" trop tôt :
+        on neutralise juste l'effet mobile (CSS safe) */
+  .avis-wrap,
+  #tarifs{
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+}
+@media (max-width: 768px){
+
+  /* ✅ STOP chevauchement HERO / INTRO */
+  .hero{
+    margin-top: 64px !important;     /* compense navbar fixe */
+    margin-bottom: 0 !important;     /* enlève le -100px desktop */
+    padding-bottom: 24px !important; /* un peu d’air */
+  }
+
+  .intro{
+    margin-top: 0 !important;        /* enlève le -370px mobile */
+    padding-top: 18px !important;
+  }
+
+  /* ✅ On ré-affiche le hero title (tu l’avais caché avant) */
+  .hero .hero-text.hero-stack{
+    display: block !important;
+    position: absolute !important;
+
+    top: 40% !important;             /* ajuste 38–42 */
+    left: 50% !important;
+    right: auto !important;
+
+    transform: translate(-50%, -50%) !important;
+    width: min(92vw, 520px) !important;
+    text-align: center !important;
+    padding: 16px !important;
+  }
+
+  /* ✅ Taille du titre sur mobile */
+  .hero .hero-text.hero-stack .hero-main{
+    font-size: clamp(44px, 12vw, 64px) !important;
+    line-height: 0.95 !important;
+  }
+  .hero .hero-text.hero-stack .hero-kicker{
+    font-size: 12px !important;
+    letter-spacing: 0.22em !important;
+  }
+  .hero .hero-text.hero-stack .hero-sub{
+    font-size: 12px !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  /* ✅ Carte profil : espace + centrage */
+  .hero-profile{
+    margin: 18px auto 0 !important;
+    max-width: min(92vw, 360px) !important;
+  }
+
+  /* ✅ IMPORTANT : on empêche l’intro de “passer devant” le hero */
+  header{ position: relative; z-index: 2; }
+  .intro{ position: relative; z-index: 1; }
+}
+@media (max-width: 768px){
+
+  /* 1) On neutralise TOUT ce qui cache/déplace le hero */
+  .hero{
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100svh !important;          /* prend un écran */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;     /* centre vertical */
+    align-items: center !important;         /* centre horizontal */
+    padding-top: 0 !important;           /* laisse respirer sous la navbar */
+    padding-bottom: 40px !important;
+  }
+
+  /* 2) Très important : on ré-affiche le hero (tu as un display:none ailleurs) */
+  .hero .hero-text.hero-stack{
+    display: flex !important;
+    position: relative !important;          /* <-- plus en absolute */
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+
+    width: min(92vw, 520px) !important;
+    text-align: center !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    z-index: 3 !important;
+  }
+
+  /* 3) Taille du titre */
+  .hero .hero-text.hero-stack .hero-main{
+    font-size: clamp(44px, 12vw, 64px) !important;
+    line-height: 0.95 !important;
+  }
+  .hero .hero-text.hero-stack .hero-kicker{
+    font-size: 12px !important;
+    letter-spacing: 0.22em !important;
+  }
+  .hero .hero-text.hero-stack .hero-sub{
+    font-size: 12px !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  /* 4) Intro ne doit plus remonter sur le hero */
+  .intro{
+    margin-top: 0 !important;
+    padding-top: 18px !important;
+  }
+}
+@media (max-width: 768px){
+
+  /* ✅ Remonte le contenu dans la carte profil */
+  .hero-profile{
+    margin-top: 96px !important;
+    padding: 14px 14px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+
+    min-height: 170px !important;   /* ajuste si tu veux plus/moins haut */
+    gap: 10px !important;
+  }
+
+  .hero-avatar{
+    
+    margin: 0 !important;
+  }
+
+  .hero-profile-text{
+    gap: 6px !important;
+    margin: 0 !important;
+  }
+
+  .hero-name{
+    margin: 0 !important;
+    line-height: 1.1 !important;
+  }
+
+  .hero-promise{
+    margin: 0 !important;
+    line-height: 1.35 !important;
+  }
+}
+@media (max-width: 768px){
+
+  /* CTA navbar (mobile) : plus petit + plus clean */
+  .navbar .cta-button{
+    padding: 9px 12px !important;
+    font-size: 0.88rem !important;
+    line-height: 1.05 !important;
+    border-radius: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  /* si tu veux qu'il prenne encore moins de place */
+  /* .navbar .cta-button{ padding: 8px 10px !important; font-size: 0.84rem !important; } */
+}
+@media (max-width: 768px){
+
+  /* Navbar mobile plus compacte */
+  .navbar{
+    padding: 12px 14px !important;
+    gap: 10px !important;
+  }
+
+  /* CTA mobile : compact + limité en largeur */
+  .navbar .cta-button{
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 8px 10px !important;
+    font-size: 0.78rem !important;
+    line-height: 1 !important;
+    border-radius: 12px !important;
+
+    max-width: 150px !important;      /* ✅ limite la largeur */
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important; /* => "Commencer ton pro…" */
+  }
+
+  /* Encore plus petit sur très petit écran (Galaxy S8 etc.) */
+  @media (max-width: 380px){
+    .navbar .cta-button{
+      max-width: 132px !important;
+      font-size: 0.74rem !important;
+      padding: 7px 9px !important;
+    }
+  }
+}
+@media (max-width: 768px){
+
+  /* Navbar mobile : base */
+  .navbar{
+    position: fixed !important;
+    top: 0; left: 0; right: 0;
+    padding: 12px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    z-index: 999 !important;
+  }
+
+  /* Logo à gauche */
+  .navbar .logo{
+    flex: 0 0 auto !important;
+    max-width: 42% !important;
+    line-height: 1.1 !important;
+    font-size: 16px !important;
+  }
+
+  /* ✅ Burger CENTRÉ au milieu de la navbar */
+  .burger{
+    display: flex !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    z-index: 1001 !important;
+  }
+  .burger span{
+    background-color: #fff !important;
+    width: 22px !important;
+    height: 2px !important;
+    border-radius: 2px !important;
+  }
+
+  /* ✅ CTA à droite en 2 lignes */
+  .navbar .cta-button{
+    display: inline-flex !important;
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    /* force le wrap sur 2 lignes */
+    width: 110px !important;         /* ajuste 100–120 si besoin */
+    white-space: normal !important;
+    text-align: center !important;
+
+    padding: 8px 10px !important;
+    font-size: 0.78rem !important;
+    line-height: 1.05 !important;
+    border-radius: 12px !important;
+  }
+
+  /* Menu déroulant (si tu l’utilises) : sous la navbar */
+  .nav-links{
+    position: absolute !important;
+    top: 56px !important;
+    left: 12px !important;
+    right: 12px !important;
+    border-radius: 12px !important;
+  }
+}
+@media (max-width: 768px){
+  .navbar .cta-button{
+    top: calc(50% - 10px) !important; /* remonte un peu (teste -2px à -6px) */
+    transform: translateY(-50%) !important;
+  }
+}
+@media (max-width: 768px){
+  /* Remonte la carte sans faire bouger le reste du hero */
+  .hero-profile{
+    translate: 0 -44px; /* ajuste: -8 / -12 / -18 */
+  }
+}
+
+@media (max-width: 768px){
+
+  /* ✅ Intro title : plus lisible, moins envahissant */
+  .intro h2{
+    font-size: clamp(1.9rem, 7.2vw, 2.35rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.01em !important;
+    margin: 18px auto 10px !important;
+    max-width: 18ch !important;  /* évite les lignes trop longues */
+  }
+
+  /* Sous-phrase : un peu plus compacte aussi */
+  .intro h3{
+    font-size: 0.98rem !important;
+    margin-top: 12px !important;
+    margin-bottom: 18px !important;
+    opacity: 0.82 !important;
+  }
+}
+@media (max-width: 768px){
+
+  /* Intro : alignement pro (mobile) */
+  .intro{
+    text-align: left !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    margin-top: 12px
+  }
+
+  .intro h2,
+  .intro h3,
+  .intro p,
+  .intro .intro-note{
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Titre un peu moins massif */
+  .intro h2{
+    font-size: clamp(1.9rem, 7.2vw, 2.35rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  /* Sous-titre + note : plus lisibles */
+  .intro h3{
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    opacity: .86 !important;
+  }
+
+  .intro .intro-note{
+    font-size: 1rem !important;
+    line-height: 1.55 !important;
+    opacity: .86 !important;
+  }
+
+  /* CTA : tu peux le laisser centré même si le texte est à gauche */
+  .intro .cta-btn{
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 360px !important;
+  }
+}
 </style>
 </head>
 
@@ -1672,32 +3024,57 @@ z-index: -100;
   <img src="fond-site-web-2.png" class="full-width" alt="Bannière Norland">
   
   <div class="hero-text hero-title hero-stack">
+
   <span class="hero-kicker">MONTEUR VIDÉO</span>
   <span class="hero-main hero-main--a">YOUTUBE FORMAT LONG </span>
   <span class="hero-sub">
     Documentaire <span class="dot">•</span> Storytelling <span class="dot">•</span> Vulgarisation
   </span>
+
+  <div class="hero-profile">
+    <img src="./Profils/profil-moi.jpg" alt="Guillaume" class="hero-avatar">
+    <div class="hero-profile-text">
+      <div class="hero-name"><strong>Guillaume</strong></div>
+      <div class="hero-promise"><em>Tu m’envoies tes rushs et ton script, je m’occupe du reste.</em></div>
+  </div>
+    </div>
+  </div>
+
 </div>
   <div id="scroll-indicator">
-  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke=#f9d5ec opacity=70% stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down">
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke=#ffffff opacity=70% stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-down">
    
     <polyline points="19 12 12 19 5 12"></polyline>
   </svg>
 </div>
 
-</section>
- <section class="intro fade-in-on-scroll">
-  <h2>Tu es créateur de contenu ?</h2>
-  <h3>Je t'aide à raconter ton histoire.</h3>
-  <img src="Profils/profil-moi.jpg" alt="Photo de profil Norland" class="mobile-profile">
-  <p>
-    Moi c’est <strong>Norland</strong>, <span class="highlight">monteur vidéo expérimenté spécialisé dans le contenu long sur YouTube.<br></span>
-    <span class="hide-on-mobile">
-    Si tu veux donner à tes vidéos un rendu <strong>professionnel</strong>, avec une intro <strong>percutante</strong> et un storytelling <strong>maîtrisé</strong>, tu es au bon endroit.
-  </span></p>
+</section> <!-- FIN HERO -->
+
+<section class="intro fade-in-on-scroll">
+  <h2>Moins de charge mentale. Plus de résultat.</h2>
+  <h3>Tu te concentres sur le fond. Je m’occupe de la forme.</h3>
+
+  <div class="benefits">
+    <div class="benefit">
+      <span class="benefit-title">Storytelling & rétention</span>
+      <span class="benefit-text">intro, rythme, tension.</span>
+    </div>
+    <div class="benefit">
+      <span class="benefit-title">Post-prod complète</span>
+      <span class="benefit-text">sound design, musique, mix, color.</span>
+    </div>
+    <div class="benefit">
+      <span class="benefit-title">DA sur-mesure</span>
+      <span class="benefit-text">habillage, motion, illustrations.</span>
+    </div>
+  </div>
+
+  <p class="intro-note">
+    <strong>Tu m’envoies</strong> rushs + script + sources = <em>je transforme ça en vidéo prête à publier.</em>
+  </p>
+
   <a href="formulaire.html" class="cta-btn">Parlons de ton projet</a>
 </section>
-
   <nav class="navbar">
     <div class="logo">Norland Production</div>
        <div class="burger" id="burger-menu">
@@ -1706,9 +3083,9 @@ z-index: -100;
     <span></span>
   </div>
     <ul class="nav-links">
-      <li><a href="#portfolio-carousel">Portfolio</a></li>
+      <li><a href="#realisations">Portfolio</a></li>
       <li><a href="#avis">Avis</a></li>
-      <li><a href="#services-section" class="nav-link">Services</a></li>
+      <li><a href="#tarifs" class="nav-link">Tarifs</a></li>
       <li><a href="mailto:contact@norlandproduction.com">Contact</a></li>
     </ul>
     <a href="formulaire.html" class="cta-button">Commencer ton projet</a>
@@ -1718,66 +3095,276 @@ z-index: -100;
    <div class="gradient-overlay"></div>
   <img src="01-1.jpg" class="background-image" class="full-width" alt="fond" class="rotated-bg" />
 </div>
-<section id="da-sur-mesure" class="da-showcase">
-  <div class="da-header">
-   <h2 class="da-title">
-  <span class="da-top">Ton univers,</span><br>
-   <span class="gradient-text">ta DA sur-mesure</span>
-</h2>
+
+<section id="realisations" class="works fade-in-on-scroll">
+  <div class="works-head">
+    <div>
+      <h2 class="works-title">Sélection de montages</h2>
+      <p class="works-sub">Storytelling • Vulgarisation • Documentaire (format long)</p>
+    </div>
+
+    <a class="works-btn" href="portfolio.html">Voir le portfolio complet ↗</a>
   </div>
 
-  <div class="da-grid">
-    <article class="da-card reveal" style="--d:0ms">
-      <div class="da-inner">
-      <video class="da-video" autoplay muted loop playsinline preload="metadata">
-        <source src="videos/DA-01-techno-militaire.mp4" type="video/mp4">
-      </video>
-      <div class="da-label">Techno / Militaire</div>
-    </div>
-    </article>
+  <div class="works-marquee" id="worksMarquee">
+    <!-- ROW 1 : droite -> gauche -->
+    <div class="work-row dir-left">
+      <div class="work-track">
+        <!-- 4 cartes (1 à 4) -->
+        <a class="work-card"
+           href="#"
+           target="_blank" rel="noopener noreferrer"
+           data-creator="Peur 2.0"
+           data-title="L'Iceberg TERRIFIANT des Fonds Marins"
+           data-cat="Horreur / Internet"
+           data-link="https://youtu.be/wJnzdj6DzR4?si=pVgck9WwaIzYq5Ch">
+          <img src="miniatures/minia1.jpg" alt="Miniature 1">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
 
-    <article class="da-card reveal" style="--d:180ms">
-      <div class="da-inner">
-      <video class="da-video" autoplay muted loop playsinline preload="metadata">
-        <source src="videos/DA-02-sport-geo.mp4" type="video/mp4">
-      </video>
-      <div class="da-label">Sport / Géo</div>
-    </div>
-    </article>
+        <a class="work-card" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Twaylo"
+           data-title="9/11 : J'ai Trouvé ce que les TOURS JUMELLES cachent depuis 25 ans"
+           data-cat="Militaire / Enquête"
+           data-link="https://youtu.be/EQjxqDqeyCE?si=pyr93oI2eVsz4fMl">
+          <img src="miniatures/minia2.jpg" alt="Miniature 2">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
 
-    <article class="da-card reveal" style="--d:360ms">
-      <div class="da-inner">
-      <video class="da-video" autoplay muted loop playsinline preload="metadata">
-        <source src="videos/DA-03-true-crime.mp4" type="video/mp4">
-      </video>
-      <div class="da-label">True Crime</div>
-    </div>
-    </article>
+        <a class="work-card" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Alex de Castro"
+           data-title="Mais comment Manchester Utd est devenu aussi nul ?"
+           data-cat="Sport"
+           data-link="https://youtu.be/8IU8qBOeSHA?si=GyGRKAmBLSqEzh8o">
+          <img src="miniatures/minia3.jpg" alt="Miniature 3">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
 
-    <article class="da-card reveal" style="--d:440ms">
-      <div class="da-inner">
-      <video class="da-video" autoplay muted loop playsinline preload="metadata">
-        <source src="videos/DA-04-musique-film.mp4" type="video/mp4">
-      </video>
-      <div class="da-label">Musique / Film</div>
-    </div>
-    </article>
+        <a class="work-card" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Le Futurologue"
+           data-title="Le mythe du crédit social chinois"
+           data-cat="Vulgarisation / Société"
+           data-link="https://www.youtube.com/@LeFuturologue">
+          <img src="miniatures/minia4.jpg" alt="Miniature 4">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
 
-    <article class="da-card reveal" style="--d:500ms">
-      <div class="da-inner">
-      <video class="da-video" autoplay muted loop playsinline preload="metadata">
-        <source src="videos/DA-05-horreur-internet.mp4" type="video/mp4">
-      </video>
-      <div class="da-label">Horreur / Internet</div>
+        <!-- DUPLICATE (pour boucle infinie) -->
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Peur 2.0" data-title="L'Iceberg TERRIFIANT des Fonds Marinsr"
+           data-cat="Horreur / Internet" data-link="https://youtu.be/wJnzdj6DzR4?si=pVgck9WwaIzYq5Ch">
+          <img src="miniatures/minia1.jpg" alt="Miniature 1 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Twaylo" data-title="9/11 : J'ai Trouvé ce que les TOURS JUMELLES cachent depuis 25 ans"
+           data-cat="Militaire / Enquête" data-link="https://youtu.be/EQjxqDqeyCE?si=pyr93oI2eVsz4fMlX">
+          <img src="miniatures/minia2.jpg" alt="Miniature 2 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Alex de Castro" data-title="Mais comment Manchester Utd est devenu aussi nul ?"
+           data-cat="Sport" data-link="https://youtu.be/8IU8qBOeSHA?si=GyGRKAmBLSqEzh8o">
+          <img src="miniatures/minia3.jpg" alt="Miniature 3 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Le Futurologue" data-title="Le mythe du crédit social chinois"
+           data-cat="Vulgarisation / Société" data-link="https://www.youtube.com/@LeFuturologue">
+          <img src="miniatures/minia4.jpg" alt="Miniature 4 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+      </div>
     </div>
-    </article>
+
+    <!-- ROW 2 : gauche -> droite -->
+    <div class="work-row dir-right">
+      <div class="work-track">
+        <!-- 4 cartes (5 à 8) -->
+        <a class="work-card" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="TW_Sports"
+           data-title="ONLY FANS est en train de TUER le SPORT, et c'est Mérité."
+           data-cat="Sport / Internet"
+           data-link="https://youtu.be/c2mUn_725mQ?si=KOwp9VEef7NSqFYE">
+          <img src="miniatures/minia5.jpg" alt="Miniature 5">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="LORIS POKA"
+           data-title="Le premier mort à l'UFC va bientôt arriver."
+           data-cat="Vulgarisation / Sport"
+           data-link="https://youtu.be/blr83DMGu0E?si=3knu5mzmBwyU7aFK">
+          <img src="miniatures/minia6.jpg" alt="Miniature 6">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Malo Halna"
+           data-title="Je teste le BARBECUE japonais (Yakiniku) 🥓🇯🇵"
+           data-cat="Vlog / Voyage"
+           data-link="https://youtu.be/FCu2A_C7c74?si=vkvMH8yQwBkjVMor">
+          <img src="miniatures/minia7.jpg" alt="Miniature 7">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Le Vinyle"
+           data-title="La Réalité derrière les MENSONGES d'Akon"
+           data-cat="Musique / Film"
+           data-link="https://youtu.be/lFtPC8FsIC0?si=SnrixsxjY5d5SXBw">
+          <img src="miniatures/minia8.jpg" alt="Miniature 8">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <!-- DUPLICATE (boucle) -->
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="TW_Sports" data-title="ONLY FANS est en train de TUER le SPORT, et c'est Mérité." data-cat="Sport / Internet" data-link="https://youtu.be/c2mUn_725mQ?si=KOwp9VEef7NSqFYE">
+          <img src="miniatures/minia5.jpg" alt="Miniature 5 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="LORIS POKA" data-title="Le premier mort à l'UFC va bientôt arriver." data-cat="Vulgarisation / Sport" data-link="https://youtu.be/blr83DMGu0E?si=3knu5mzmBwyU7aFK">
+          <img src="miniatures/minia6.jpg" alt="Miniature 6 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Malo Halna" data-title="Je teste le BARBECUE japonais (Yakiniku) 🥓🇯🇵" data-cat="Vlog / Voyage" data-link="https://youtu.be/FCu2A_C7c74?si=vkvMH8yQwBkjVMor">
+          <img src="miniatures/minia7.jpg" alt="Miniature 7 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+
+        <a class="work-card clone" href="#" target="_blank" rel="noopener noreferrer"
+           data-creator="Le Vinyle" data-title="La Réalité derrière les MENSONGES d'Akon" data-cat="Musique / Film" data-link="https://youtu.be/lFtPC8FsIC0?si=SnrixsxjY5d5SXBw">
+          <img src="miniatures/minia8.jpg" alt="Miniature 8 clone">
+          <div class="work-overlay">
+            <div class="work-top">
+              <span class="work-chip" data-cat-text></span>
+              <span class="work-link">Voir sur YouTube ↗</span>
+            </div>
+            <div class="work-creator" data-creator-text></div>
+            <div class="work-name" data-title-text></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    
   </div>
 </section>
- <h2 class="carousel-title">
-     Ils m’ont fait<br>   confiance pour <span class="gradient-text"> raconter</span> <br>
-  <span class="gradient-text"> leurs histoires:</span>
-</h2>
-<section id="portfolio-carousel" class="carousel-section">
+
+
+<section id="portfolio-carousel" class="carousel-section is-hidden">
   <a href="https://youtube.com/playlist?list=PLhle_EGMzbeK1zvNvNM4Y5w_rNHPg1Tdc&si=odYDTJCl19SQ604J" 
    target="_blank" 
    class="portfolio-link">
@@ -1827,7 +3414,13 @@ z-index: -100;
     <button class="carousel-arrow right-arrow">&#10095;</button> <!-- flèche droite -->
   </div>
 </section>
-<section id="avis" class="testimonials-section">
+<div id="avis" class="avis-wrap">
+  <div class="testimonials-head fade-in-on-scroll">
+    <h2 class="testimonials-title">Avis clients</h2>
+    <p class="testimonials-sub">Des retours concrets, après livraison.</p>
+  </div>
+
+  <section id="avis" class="testimonials-section fade-in-on-scroll">
   <div class="testimonial">
     <img src="Profils/profil-loris.jpg" alt="Loris Poka">
     <p><strong>Loris Poka</strong><br><em>C’était rapide ! Magnifique la vidéo vraiment. Je suis trop fan de l’ambiance que tu mets avec le montage, t’es trop fort.</em></p>
@@ -1845,78 +3438,149 @@ z-index: -100;
     <p><strong>Peur 2.0</strong><br><em>J’ai maté la V1, écoute j’ai rien à redire. C’est chiant quand c’est parfait 🥲 (…) J’ai pas envie d’apporter des motifs haha !</em></p>
   </div>
 </section>
-<section class="objectif-section">
-  <div class="objectif-content">
-   <h2 class="objectif-title">
-  Mon objectif ? <br><span class="gradient-text">Que tu atteignes <br>TON objectif.</span>
-</h2>
-<div class="hide-on-mobile">
-    <p>
-      Chaque projet est pensé pour <strong>captiver</strong>, raconter une histoire et sublimer ta vision.<br>
-      Le <strong>rythme</strong>, l’<strong>esthétique</strong>, la <strong>narration</strong>, chaque seconde doit être la plus immersive possible.
-    </p>
-    <h3 class="phrase-importante"><strong>En bref, je ne me contente pas de monter. <span class="highlight">Je raconte.</span></strong></h3></div>
-    <p class="question">Et toi, c’est quoi ton histoire ?</p>
-    <p class="types">Storytelling, VLOG, gaming, vulgarisation, sponso, etc…</p>
-    <div style="text-align: center;">
+</div>
+<!-- ✅ PROCESS (à placer après les avis, par ex.) -->
+<section id="process" class="process-block fade-in-on-scroll">
+  <div class="process-head">
+    <h2 class="process-title">Un processus fluide et droit au but.</h2>
+    <p class="process-sub">Tu gagnes du temps. Tu récupères un rendu premium.</p>
+  </div>
+
+  <div class="process-cards">
+    <div class="process-card">
+      <div class="process-num">01</div>
+      <h3 class="process-card-title">Brief</h3>
+      <p class="process-card-text">Objectif, DA, références, ambiance recherchée.</p>
+    </div>
+
+    <div class="process-card">
+      <div class="process-num">02</div>
+      <h3 class="process-card-title">Créneau réservé</h3>
+      <p class="process-card-text">Tu sais quand ça démarre et quand tu reçois ta vidéo.</p>
+    </div>
+
+    <div class="process-card">
+      <div class="process-num">03</div>
+      <h3 class="process-card-title">Tu m’envoies tout</h3>
+      <p class="process-card-text">Rushs + script + sources + infos nécessaires.</p>
+    </div>
+
+    <div class="process-card">
+      <div class="process-num">04</div>
+      <h3 class="process-card-title">V1 + retours, puis livraison</h3>
+      <p class="process-card-text">Montage rythmé, rendu pro, habillage/motion & sound si besoin, exports prêts à publier (jusqu’en 4K).</p>
+    </div>
+  </div>
+
+  <div class="process-cta">
     <a href="formulaire.html" class="cta-red">Parlons de ton projet</a>
   </div>
 </section>
-<section class="video-showcase fade-in-on-scroll">
-  <div class="video-grid">
-    <div class="video-wrapper">
-      <div class="video-overlay"></div>
-      <video src="videos/exemple1.mp4" autoplay muted loop playsinline></video>
-      <p>Storytelling / Documentaire</p>
-    </div>
-    <div class="video-wrapper">
-      <div class="video-overlay"></div>
-      <video src="videos/exemple2.mp4" autoplay muted loop playsinline></video>
-      <p>VLOG / Entreprise</p>
-    </div>
-    <div class="video-wrapper">
-      <div class="video-overlay"></div>
-      <video src="videos/exemple3.mp4" autoplay muted loop playsinline></video>
-      <p>Streaming / Gaming</p>
-    </div>
-    <div class="video-wrapper">
-      <div class="video-overlay"></div>
-      <video src="videos/exemple4.mp4" autoplay muted loop playsinline></video>
-      <p>Sponso / UGC</p>
-    </div>
+
+
+<!-- ✅ TARIFS (à placer sous la section Process) -->
+<section id="tarifs" class="pricing fade-in-on-scroll">
+  <div class="pricing-head">
+    <h2 class="pricing-title">Tarifs</h2>
+    <p class="pricing-sub">Deux niveaux, même exigence. Devis clair avant démarrage.</p>
+  </div>
+
+  <div class="pricing-grid">
+    <article class="pricing-card">
+      <div class="pricing-top">
+        <h3 class="pricing-name">Classique</h3>
+        <span class="pricing-price">à partir de <strong>790€</strong></span>
+      </div>
+      <p class="pricing-desc">
+        Montage rythmé + habillage simple + musique + exports prêts à publier.
+      </p>
+      <p class="pricing-for">
+        Idéal pour les créateurs en phase d’accélération.
+      </p>
+    </article>
+
+    <article class="pricing-card premium">
+      <div class="pricing-top">
+        <h3 class="pricing-name">Premium</h3>
+        <span class="pricing-price">à partir de <strong>1 600€</strong></span>
+      </div>
+      <p class="pricing-desc">
+        Tout le Classique + sound design + mix + étalonnage + habillage/motion + DA personnalisée.
+      </p>
+      <p class="pricing-for">
+        Idéal pour passer un cap et construire une identité forte.
+      </p>
+    </article>
+  </div>
+
+  <p class="pricing-note">
+    Le tarif final varie selon la durée, le volume de rushs et le niveau de post-prod. <strong>Devis clair avant démarrage.</strong>
+  </p>
+
+  <div class="pricing-cta">
+    <a href="formulaire.html" class="cta-red ">Obtenir un devis</a>
   </div>
 </section>
 
-<section id="services-section" class="process-section fade-in-on-scroll">
-  <h2 class="section-title">Comment ça se passe ?</h2>
-  <div class="process-grid">
-    <div class="process-step">
-      <h3>1. Prise de contact</h3>
-      <p>On discute de ton projet, ton univers, ton audience.</p>
+<section id="faq" class="faq fade-in-on-scroll">
+  <div class="faq-head">
+    <h2 class="faq-title">FAQ</h2>
+    <p class="faq-sub">Les questions qu’on me pose le plus.</p>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>Tu montes aussi les sponsors / intégrations ?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <div>
+        Oui. Je peux monter ta sponso et l’intégrer de façon naturelle au reste de la vidéo, pour éviter une baisse de rétention.</div>
+      
+      </div>
     </div>
-    <div class="process-step">
-      <h3>2. Plan de montage</h3>
-      <p>Je te propose une structure, un style, un rythme.</p>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>En moyenne, combien de temps prend un montage ?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <div>Ça dépend surtout de la durée finale, du volume de rushs et du niveau de post-prod (sound design / motion / archives). Après le brief, je te donne un délai clair.</div>
+      </div>
     </div>
-    <div class="process-step">
-      <h3>3. Premier rendu</h3>
-      <p>Tu reçois une première version, on ajuste ensemble.</p>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>Tu peux t’adapter à ma DA / mon style ?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <div>
+        Oui. Tu me donnes tes références (ou ta chaîne), et je m’aligne sur ton identité. Si besoin, je propose une DA sur-mesure.</div>
+      </div>
     </div>
-    <div class="process-step">
-      <h3>4. Livraison</h3>
-      <p>Tu repars avec une vidéo prête à performer !</p>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>Comment se passe le paiement ?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        <div>
+        Devis validé avant de réserver ton créneau, puis paiement en 2 temps (acompte + solde à la livraison).</div>
+      </div>
     </div>
   </div>
-</section>
 
-<section class="final-cta fade-in-on-scroll">
-  <h2 class="section-title">T’es prêt ? Travaillons ensemble.</h2>
-  <a href="formulaire.html" class="cta-red">Discutons de ton projet</a>
+  <div class="faq-cta">
+    <a href="formulaire.html" class="works-btn">Obtenir un devis ↗</a>
+  </div>
 </section>
-
 
 <footer class="site-footer">
-  <p>&copy; 2025 Norland Production — Monteur vidéo freelance</p>
+  <p>&copy; 2025–2026 Norland Production — Monteur vidéo freelance</p>
   <div class="footer-links">
     <a href="https://www.linkedin.com/in/guillaume-kuhn-639923325/" target="_blank">LinkedIn</a>
     <a href="mailto:contact@norlandproduction.com">Email</a>
@@ -1928,6 +3592,7 @@ z-index: -100;
   const items = document.querySelectorAll('.carousel-item');
   const leftArrow = document.querySelector('.left-arrow');
   const rightArrow = document.querySelector('.right-arrow');
+  
   let index = 0;
 
   // Joue toutes les vidéos
@@ -2132,6 +3797,157 @@ window.addEventListener('scroll', () => {
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  update();
+})();
+</script>
+<script>
+(() => {
+ const el = document.querySelector('.hero-profile');
+  if (!el) return;
+
+  el.classList.add('intro-in');
+  requestAnimationFrame(() => el.classList.add('is-ready'));
+  setTimeout(() => el.classList.remove('intro-in'), 2800);
+  
+
+  // ✅ fade-out au scroll
+  const start = 0;
+  const end = 420;
+
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+  function update(){
+    const y = window.scrollY || 0;
+    const t = clamp((y - start) / (end - start), 0, 1);
+
+    const opacity = 1 - t;
+    const translate = 10 * t;
+
+    // garde l’animation d’apparition si on est tout en haut
+    el.style.opacity = opacity.toFixed(3);
+    el.style.transform = `translateY(${translate}px)`;
+    el.style.pointerEvents = opacity < 0.15 ? 'none' : 'auto';
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
+<script>
+(() => {
+  const root = document.getElementById('worksMarquee');
+  if (!root) return;
+
+  // Remplir overlay + href depuis data-*
+  root.querySelectorAll('.work-card').forEach(card => {
+    const link = card.dataset.link;
+    if (link) card.href = link;
+
+    const creatorEl = card.querySelector('[data-creator-text]');
+    const titleEl = card.querySelector('[data-title-text]');
+    const catEl = card.querySelector('[data-cat-text]');
+
+    if (creatorEl) creatorEl.textContent = card.dataset.creator || '';
+    if (titleEl) titleEl.textContent = card.dataset.title || '';
+    if (catEl) catEl.textContent = card.dataset.cat || '';
+  });
+
+  let active = null;
+
+  function setActive(card){
+    if (active) active.classList.remove('is-active');
+    active = card;
+    if (active) active.classList.add('is-active');
+  }
+
+  // Hover = pause + focus
+  root.addEventListener('pointerenter', (e) => {
+    const card = e.target.closest('.work-card');
+    if (!card) return;
+    root.classList.add('is-paused', 'is-hovering');
+    setActive(card);
+  }, true);
+
+  root.addEventListener('pointermove', (e) => {
+    const card = e.target.closest('.work-card');
+    if (!card) return;
+    if (card !== active){
+      setActive(card);
+    }
+  }, true);
+
+  root.addEventListener('pointerleave', () => {
+    root.classList.remove('is-paused', 'is-hovering');
+    setActive(null);
+  });
+})();
+</script>
+<script>
+
+(() => {
+  const wrap = document.querySelector('.avis-wrap');
+  if (!wrap) return;
+
+  // ✅ Ajuste ici
+  const startPx = -120; // commence à fade plus tôt (plus négatif = plus tôt)
+  const endPx   = 380;  // finit le fade (plus petit = fade plus rapide)
+
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+  function update(){
+    const rect = wrap.getBoundingClientRect();
+    const passed = -rect.top; // >0 quand le haut du bloc est passé au-dessus
+
+    const t = clamp((passed - startPx) / (endPx - startPx), 0, 1);
+
+    const opacity = 1 - t;
+    const translate = 10 * t;
+
+    wrap.style.opacity = opacity.toFixed(3);
+    wrap.style.transform = `translateY(${translate}px)`;
+    wrap.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+<script>
+(() => {
+  const sec = document.getElementById('tarifs');
+  if (!sec) return;
+
+  // Ajuste ces valeurs
+  const startPx = 20;   // commence à s’estomper tôt
+  const endPx   = 220;  // totalement estompé tôt
+
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+  function update(){
+    // ✅ Tant que la section n’a pas "appear", on ne touche à rien
+    if (!sec.classList.contains('appear')) {
+      sec.style.removeProperty('opacity');
+      sec.style.removeProperty('transform');
+      sec.style.removeProperty('pointer-events');
+      return;
+    }
+
+    const rect = sec.getBoundingClientRect();
+    const passed = -rect.top; // >0 quand le haut est passé au-dessus
+
+    const t = clamp((passed - startPx) / (endPx - startPx), 0, 1);
+    const opacity = 1 - t;
+    const translate = 10 * t;
+
+    sec.style.opacity = opacity.toFixed(3);
+    sec.style.transform = `translateY(${translate}px)`;
+    sec.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
   update();
 })();
 </script>
