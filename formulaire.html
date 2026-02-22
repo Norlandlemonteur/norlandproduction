@@ -279,6 +279,29 @@
   line-height: 1;     /* évite le décalage vertical */
   min-height: 44px;   /* bon standard mobile */
 }
+/* ✅ Select = même “bulle” que les inputs */
+select{
+  -webkit-appearance: none;
+  appearance: none;
+
+  height: 44px;                 /* adapte si tes inputs sont à 44/46/48 */
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+
+  font: inherit;
+  line-height: 1.2;
+}
+
+/* (Optionnel) pour que la flèche/chevron ne colle pas au bord */
+select{
+  padding-right: 42px;
+}
+
+/* (Optionnel) si tu as un wrapper, tu peux dessiner une flèche custom */
   </style>
 </head>
 
