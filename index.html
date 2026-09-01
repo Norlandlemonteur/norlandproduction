@@ -151,6 +151,44 @@ nav.hidden {
   font-weight: 500;
 }
 
+/* Libellé court quand la barre se resserre (2026-09-01).
+   Entre la bascule burger (768px) et ~1000px, le logo, les quatre entrées et le bouton
+   doivent tenir sur une seule ligne. « Écrire un script » y devient « Script ».
+   En dessous de 769px le menu passe en colonne dans le burger : la place ne manque plus,
+   on garde donc le libellé complet, qui dit mieux ce qu'on va trouver. */
+.nav-short { display: none; }
+/* Bande serrée : le burger prend le relais plus tôt (2026-09-01).
+   Entre 769 et 900px, le logo sur deux lignes, les entrées et le gros bouton rouge ne
+   tiennent plus sur une ligne — le bouton passait par-dessus la dernière entrée. On étend
+   simplement le mécanisme burger déjà en place plus bas, plutôt que de rogner les libellés
+   jusqu'à l'illisible. Mêmes règles que la version mobile, pour un comportement identique. */
+@media (min-width: 769px) and (max-width: 900px) {
+  .nav-links,
+  .cta-button { display: none; }
+  .burger { display: flex; }
+  /* Les barres du burger sont blanches — la règle vit dans le bloc mobile plus bas, qui ne
+     s'applique pas ici. Sans elle, le burger reste noir sur fond noir : invisible. */
+  .burger span { background-color: white; }
+  .nav-links {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #111;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+  }
+  .nav-links.active { display: flex; }
+}
+
+/* Juste au-dessus, la barre tient encore mais de justesse : libellé court et entrées resserrées. */
+@media (min-width: 901px) and (max-width: 1080px) {
+  .nav-long { display: none; }
+  .nav-short { display: inline; }
+  .nav-links { gap: 20px; }
+}
+
 .cta-button {
    background-color: #d72631; /* Rouge vibrant */
   color: white;
@@ -208,6 +246,18 @@ html {
   margin: clamp(46px, 4vh, 64px) auto 0;
   margin-bottom: -100px;
 }
+
+/* Chevauchement du hero avec la section suivante (2026-09-01).
+   `.hero` remonte volontairement la section suivante de 100px (margin-bottom négatif). Sa
+   hauteur vient d'une image invisible qui raccourcit avec la largeur, alors que le titre et la
+   carte photo, en positionnement absolu, ne raccourcissent pas au même rythme. Passé un certain
+   point, le contenu atteint le bas du hero et les -100px posent « Moins de charge mentale »
+   par-dessus la photo. On annule seulement le chevauchement dans cette bande ; au-delà, la
+   superposition reste voulue et intacte. */
+@media (max-width: 1080px) {
+  .hero { margin-bottom: 0; }
+}
+
 
 
 
@@ -2967,6 +3017,7 @@ z-index: -100;
       <li><a href="#realisations">Portfolio</a></li>
       <li><a href="#avis">Avis</a></li>
       <li><a href="mailto:contact@norlandproduction.com">Contact</a></li>
+      <li><a href="https://finalhook.com" target="_blank" rel="noopener"><span class="nav-long">Écrire un script</span><span class="nav-short">Script</span></a></li>
     </ul>
     <a href="formulaire.html" class="cta-button">Commencer ton projet</a>
   </nav>
